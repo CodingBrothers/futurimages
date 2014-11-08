@@ -169,13 +169,13 @@ by a user.
 
 The Image resource has the following attributes:
 
-- id (string): ID of the image (currently, it will always be a SHA-1 hash string)
+- id (string): ID of the Image (currently, it will always be a SHA-1 hash string)
 - created_at (timestamp): Date of Image upload
 - name (string): Image name
 - description (string): Image description
 - public (boolean): Indicates whether the Image is public or not (i.e. visible to all or only to the owner?)
-- owner ()object: Uploader of the image
-- metadata
+- owner (object): Uploader of the image. See User resource for detailed description.
+- metadata (object): 
 - content
 - type
 - width
@@ -216,3 +216,29 @@ The essential resources of the **Futurimages API**
           "id": 2, "title": "Pick-up posters from post-office"
         }]
         
+# Group User
+User-related resources of the **Futurimages API**
+
+## User [/users/{login}]
+A single User object. It represents a user which indirectly uses **Futurimages API** by means of a client application
+to browse or upload images to Futurimages.
+
+The User resource has the following attributes:
+
+- login (string): email of the User
+- first_name (string): User first name
+- last_name (string): User last name
+
++ Parameters
+    + login (string) ... email of the User that [is encoded](http://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_reserved_characters) using UTF-8
+    
++ Model (application/json)
+    JSON representation of User Resource.
+
+    + Body
+    
+            {
+                "login": "futurimages@gmail.com",
+                "first_name": null
+                "last_name": "Futurimages"
+            }
