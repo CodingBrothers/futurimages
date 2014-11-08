@@ -163,7 +163,44 @@ Not supported at the moment.
 # Group Image
 Image-related resources of the **Futurimages API**
 
+## Image [/images/{id}]
+A single Image object. The Image resource is the central resource of the API. It represents an image uploaded
+by a user.
 
+The Image resource has the following attributes:
+
+- id (string): ID of the image (currently, it will always be a SHA-1 hash string)
+- created_at (timestamp): Date of Image upload
+- name (string): Image name
+- description (string): Image description
+- public (boolean): Indicates whether the Image is public or not (i.e. visible to all or only to the owner?)
+- owner ()object: Uploader of the image
+- metadata
+- content
+- type
+- width
+- height
+- size
+- type
+
+The states _id_ and _created_at_ are assigned by the Futurimages API at the moment of creation.
+
++ Parameters
+    + id (string) ... ID of the Image
+    
++ Model (application/json)
+    JSON representation of Image Resource.
+
+    + Body
+    
+            {
+                "id": "rg"
+            }
+            
+### Retrieve a Single Image [GET]
++ Response 200
+
+    [Image][]            
 
 # Group Images
 The essential resources of the **Futurimages API**
