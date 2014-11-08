@@ -2,7 +2,7 @@ FORMAT: 1A
 
 # Futurimages v1 API Documentation
 This describes the resources that make up the official **Futurimages v1 API**. At the moment, this API represents the only way how to access [Futurimages](http://www.futurimages.com) programatically.
-It's based on REST principles and supports both, anonymous and Google Account based access.
+It's based on REST principles.
 
 ## Current Version
 The current version is `v1`. Which is also the only version available at the same time.
@@ -118,11 +118,52 @@ of issues related to security.
 
 Requests that return multiple items will be paginated to 20 items by default. You can specify further
 pages with the `page` parameter. For some resources, you can also set a custom page size with the `per_page` parameter.
-Note that for technical reasons not all endpoints either respect the `per_page` parameter, or set a maximum value for it.
+Note that for technical reasons not all endpoints either respect the `per_page` parameter, or set a maximum value.
+
+>$ curl 'https://apiv1.futurimages.com/images/public?page=2&per_page=100'
+
+Note that page numbering is 1-based and that omitting the `page` parameter will return the first page.
+
+### Link Header
+
+The pagination info is included in [the Link header](http://tools.ietf.org/html/rfc5988). It is recommended to follow these Link header values
+instead of constructing your own URLs.
+
+>Link: <https://api.github.com/user/repos?page=3&per_page=100>; rel="next",  
+><https://api.github.com/user/repos?page=50&per_page=100>; rel="last"
+
+_Linebreak is included for readability._
+
+The possible `rel` values are:
+
+| Name | Description |
+|-------|------|
+| next | Shows the URL of the immediate next page of results. |
+| last | Shows the URL of the last page of results. |
+| first | Shows the URL of the first page of results. |
+| prev | Shows the URL of the immediate previous page of results. |
+
+### Rate Limiting
+
+At the moment, the API does not enforce any amount of rate limiting. Yet developers should note that it
+may change anytime in the future.
+
+## Conditional requests
+
+Most responses return an `ETag` header. Many responses also return a `Last-Modified` header. You can use
+the values of these headers to make subsequent requests to those resources using the `If-None-Match` and
+`If-Modified-Since` headers, respectively. If the resource has not changed, the server will return a
+`304 Not Modified`.
+
+## JSON-P Callbacks
+
+Not supported at the moment.
 
 
 # Group Image
 Image-related resources of the **Futurimages API**
+
+
 
 # Group Images
 The essential resources of the **Futurimages API**
