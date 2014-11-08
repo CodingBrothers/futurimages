@@ -1,6 +1,20 @@
 FORMAT: 1A
 
-# Futurimages
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+# Futurimages API Documentation
+Futurimages RESTful API provides the only way how to access [Futurimages](http://www.futurimages.com) programatically, so far.
+It's based on REST principles and supports both, anonymous and Google Account based access.
 
+# Group Images
+The essential resources of the **Futurimages API**
 
+## Images Collection [/images]
+### List all public images [GET]
+
++ Response 200 (application/json)
+
+        [{
+          "id": 1, "title": "Jogging in park"
+        }, {
+          "id": 2, "title": "Pick-up posters from post-office"
+        }]
+        
