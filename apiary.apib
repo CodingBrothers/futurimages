@@ -106,7 +106,19 @@ Where possible, API v3 strives to use appropriate HTTP verbs for each action.
 
 ## Authentication
 
+At the moment, the API makes use of [Google+](https://developers.google.com/+) services for authentication/authorization purposes and managing User identity.
 
+This means OAuth2 is used which also implies a developer must have his app registered prior to calling this API.
+Please [contact](http://www.futurimages.com/contact) Futurimages team in case you plan to develop a custom app.
+
+If not explicitly stated, the API returns either `401 Unauthorized` or `403 Forbidden` in case
+of issues related to security.
+
+## Pagination
+
+Requests that return multiple items will be paginated to 20 items by default. You can specify further
+pages with the `page` parameter. For some resources, you can also set a custom page size with the `per_page` parameter.
+Note that for technical reasons not all endpoints either respect the `per_page` parameter, or set a maximum value for it.
 
 
 # Group Image
