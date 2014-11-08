@@ -165,7 +165,7 @@ Image-related resources of the **Futurimages API**
 
 ## Image [/images/{id}]
 A single Image object. The Image resource is the central resource of the API. It represents an image uploaded
-by a user.
+by a user (although the returned image format may differ from the original one which was actually uploaded).
 
 The Image resource has the following attributes:
 
@@ -174,14 +174,12 @@ The Image resource has the following attributes:
 - name (string): Image name
 - description (string): Image description
 - public (boolean): Indicates whether the Image is public or not (i.e. visible to all or only to the owner?)
-- owner (object): Uploader of the image. See User resource for detailed description.
-- metadata (object): 
-- content
-- type
-- width
-- height
-- size
-- type
+- owner (object): Uploader of the image. See _User_ resource for detailed description.
+- content (string): Returned image content as Base64 string.
+- content_type (string): [Returned image Media Type](http://www.iana.org/assignments/media-types/media-types.xhtml#image).
+- width (integer): Returned image width
+- height (integer): Returned image height
+- size (integer): Returned image size in bytes
 
 The states _id_ and _created_at_ are assigned by the Futurimages API at the moment of creation.
 
