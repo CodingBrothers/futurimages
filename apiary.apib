@@ -258,6 +258,7 @@ The Image Transformation resource has the following attributes:
 
 - id (string): ID of the Image Transformation (currently, it will always be a SHA-1 hash)
 - base_image_url (string): URL of the _base_ Image
+- applied_transformations (array): An array of string values representing the applied transformation types
 - created_at (timestamp_string): Date of Image Transformation creation
 - name (string): Image Transformation name
 - description (string): Image Transformation description
@@ -313,6 +314,10 @@ The states _id_, _created_at_, and _created_by_ are assigned by the Futurimages 
 + Response 200
 
     [Image Transformation][]
+    
+### Remove a Single Image Transformation [DELETE]
+Removes a given image transformation. Only the _creator_ of the transformation or _owner_ of the _base_ image can delete it.
++ Response 204
 
 # Group Images
 The essential resources of the **Futurimages API**
