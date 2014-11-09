@@ -257,6 +257,7 @@ may change going forward, though.
 The Image Transformation resource has the following attributes:
 
 - id (string): ID of the Image Transformation (currently, it will always be a SHA-1 hash)
+- base_image_url (string): URL of the _base_ Image
 - created_at (timestamp_string): Date of Image Transformation creation
 - name (string): Image Transformation name
 - description (string): Image Transformation description
@@ -281,6 +282,10 @@ The states _id_, _created_at_, and _created_by_ are assigned by the Futurimages 
     
             {
                 "id": "2D2192BE718A57495A31D954FDC20025E2F84532",
+                "base_image_url": "https://apiv1.futurimages.com/images/E8C4AFB678ED62892503D196C685CE967A5BFAB5",
+                "applied_transformations": [
+                    "horizontal_flip"
+                ],
                 "created_at": "2014-11-09T23:05:10Z",
                 "name": "Futurelytics Logo - horizontal flip",
                 "description": null,
