@@ -166,15 +166,13 @@ the values of these headers to make subsequent requests to those resources using
 `If-Modified-Since` headers, respectively. If the resource has not changed, the server will return a
 `304 Not Modified`.
 
-## JSON-P Callbacks
-
-Not supported at the moment.
-
 ## Roadmap
 
 - Compression
 - Support for async operations
+- Support for JSON-P callbacks
 - many other things&#8230; ;-)
+
 
 # Group Image
 Image-related resources of the **Futurimages API**
@@ -202,12 +200,7 @@ The states _id_, _created_at_, and _owner_ are assigned by the Futurimages API a
 
 + Parameters
     + id (string, `E8C4AFB678ED62892503D196C685CE967A5BFAB5`) ... ID of the Image
-    + view_type = `full` (optional, string) ... Dictates which type of view of the Image to return. Can be either `full` or `thumbnail`. Thumbnail will always have same width of _200px_.
-    
-        + Values
-            + `full`
-            + `thumbnail`
-    
+
 + Model (application/json)
     JSON representation of Image Resource.
 
@@ -233,12 +226,22 @@ The states _id_, _created_at_, and _owner_ are assigned by the Futurimages API a
             }
             
 ### Retrieve a Single Image [GET]
++ Parameters
+    + id (string, `E8C4AFB678ED62892503D196C685CE967A5BFAB5`) ... ID of the Image
+    + view_type = `full` (optional, string) ... Dictates which type of view of the Image to return. Can be either `full` or `thumbnail`. Thumbnail will always have same width of _200px_.
+    
+        + Values
+            + `full`
+            + `thumbnail`
+
 + Response 200
 
     [Image][]
     
 ### Remove a Single Image [DELETE]
+Removes a given image **as well as all its transformations**.
 + Response 204
+
 
 # Group Images
 The essential resources of the **Futurimages API**
