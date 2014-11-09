@@ -189,7 +189,7 @@ The Image resource has the following attributes:
 - description (string): Image description
 - public (boolean): Indicates whether the Image is public or not (i.e. visible to all or only to the owner?)
 - owner (object): Uploader of the Image. See _User_ resource for detailed description
-- transformations_urls (array): [Image Transformations][Image Transformation] in a form of an array of urls where these transformations can be accessed
+- transformations_urls (array): Image Transformations in a form of an array of urls where these transformations can be accessed
 - content (string): Returned image content as Base64 string
 - content_type (string): Returned image [Media Type](http://www.iana.org/assignments/media-types/media-types.xhtml#image)
 - width (integer): Returned image width in pixels
@@ -249,7 +249,7 @@ Removes a given image **as well as all its transformations!**. Only the _owner_ 
 A single Image Transformation object. The Image Transformation resource represents an image derived from a _base_
 Image by applying a given transformation, i.e. rotation.
 
-It is worth to note that Image Transformations are not fully "standalone" Images from the `v1` API point of view.
+It is worth to note that Image Transformations are not "fully standalone" Images from the `v1` API point of view.
 E.g., the creator of the Image Transformation cannot set its visibility, which always be _public_, or in case of
 _base_ Image deletion, all its Image Transformations will get deleted as well - no matter who created them. This
 may change going forward, though.
@@ -299,7 +299,7 @@ The states _id_, _created_at_, and _created_by_ are assigned by the Futurimages 
 
 ### Retrieve a Single Image Transformation [GET]
 + Parameters
-    + view_type = `full` (optional, string) ... Dictates which type of view of the Image to return. Can be either `full` or `thumbnail`. Thumbnail will always have same width of _200px_.
+    + view_type = `full` (optional, string) ... Dictates which type of view of the Image Transformation to return. Can be either `full` or `thumbnail`. Thumbnail will always have same width of _200px_.
     
         + Values
             + `full`
