@@ -174,14 +174,14 @@ The Image resource has the following attributes:
 - name (string): Image name
 - description (string): Image description
 - public (boolean): Indicates whether the Image is public or not (i.e. visible to all or only to the owner?)
-- owner (object): Uploader of the Image. See [User](#GroupUser) resource for detailed description.
+- owner (object): Uploader of the Image. See _User_ resource for detailed description.
 - content (string): Returned image content as Base64 string.
 - content_type (string): [Returned image Media Type](http://www.iana.org/assignments/media-types/media-types.xhtml#image).
 - width (integer): Returned image width
 - height (integer): Returned image height
 - size (integer): Returned image size in bytes
 
-The states _id_ and _created_at_ are assigned by the Futurimages API at the moment of creation.
+The states _id_, _created_at_, and _owner_ are assigned by the Futurimages API at the moment of creation.
 
 + Parameters
     + id (string) ... ID of the Image
@@ -198,7 +198,10 @@ The states _id_ and _created_at_ are assigned by the Futurimages API at the mome
 ### Retrieve a Single Image [GET]
 + Response 200
 
-    [Image][]            
+    [Image][]
+    
+### Remove a Single Image [DELETE]
++ Response 204
 
 # Group Images
 The essential resources of the **Futurimages API**
@@ -214,7 +217,7 @@ The essential resources of the **Futurimages API**
           "id": 2, "title": "Pick-up posters from post-office"
         }]
         
-# Group User<a name="GroupUser"></a>
+# Group User
 User-related resources of the **Futurimages API**
 
 ## User [/users/{login}]
