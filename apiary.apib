@@ -286,15 +286,13 @@ Note: all returned images will be in the _thumbnail_ view.
 ### Create an Image Transformations [POST]
 
 Creates new Image Transformation for, and from a given _base_ Image. The payload of the request must specify the name (string),
-may specify the description (string) and must contain non-empty array of string values representing the transformation types
+may specify the description (string) and must contain non-empty array of object values representing the transformation types
 to be applied (in the array's order) on the _base_ image to create the desired Image Transformation.
 
 At the moment, **supported transformations** are as follows:
-- `half-size`: halves the size
-- `horizontal_flip`: flips horizontally
-- `vertical_flip`: flips vertically
-- `right_rotation_45`: rotates to the right by 45 degrees
-- `left_rotation_45`: rotates to the left by 45 degrees
+- `resize`: resizes the image by a number of percent. Values less than 100 make the image smaller, values above 100 make the image bigger. Sample object: <code>{"type":"resize","percent":150}</code>
+- `flip`: flips the image either horizontally or vertically. Sample object: <code>{"type":"flip","direction":"horizontal"}</code>
+- `rotate`: rotates to the left/right by a number of degrees. Sample object: <code>{"type":"rotate","direction":"right","degrees":45}</code>
 
 An Image Transformation object gets returned in the response.
 
@@ -304,7 +302,10 @@ An Image Transformation object gets returned in the response.
             "name": "Futurelytics Logo - horizontal flip",
             "description": null,
             "transformations": [
-                "horizontal_flip"
+                {
+                    "type": "flip",
+                    "direction": "horizontal"
+                }
             ]
         }
 
@@ -314,7 +315,10 @@ An Image Transformation object gets returned in the response.
             "id": "2D2192BE718A57495A31D954FDC20025E2F84532",
             "base_image_url": "https://apiv1.futurimages.com/images/E8C4AFB678ED62892503D196C685CE967A5BFAB5",
             "applied_transformations": [
-                "horizontal_flip"
+                {
+                    "type": "flip",
+                    "direction": "horizontal"
+                }
             ],
             "created_at": "2014-11-09T23:05:10Z",
             "name": "Futurelytics Logo - horizontal flip",
@@ -345,7 +349,7 @@ The Image Transformation resource has the following attributes:
 
 - id (string): ID of the Image Transformation (currently, it will always be a SHA-1 hash)
 - base_image_url (string): URL of the _base_ Image
-- applied_transformations (array): An array of string values representing the applied transformation types
+- applied_transformations (array): An array of object values representing the applied transformation types
 - created_at (timestamp_string): Date of Image Transformation creation
 - name (string): Image Transformation name
 - description (string): Image Transformation description
@@ -372,7 +376,10 @@ The states _id_, _created_at_, and _created_by_ are assigned by the Futurimages 
                 "id": "2D2192BE718A57495A31D954FDC20025E2F84532",
                 "base_image_url": "https://apiv1.futurimages.com/images/E8C4AFB678ED62892503D196C685CE967A5BFAB5",
                 "applied_transformations": [
-                    "horizontal_flip"
+                    {
+                        "type": "flip",
+                        "direction": "horizontal"
+                    }
                 ],
                 "created_at": "2014-11-09T23:05:10Z",
                 "name": "Futurelytics Logo - horizontal flip",
