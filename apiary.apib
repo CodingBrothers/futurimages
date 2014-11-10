@@ -392,7 +392,7 @@ Removes a given image **as well as all its transformations!**. Only the _owner_ 
 ## Image Transformation Collection [/images/{id}/transformations{?since,name,sort_by}]
 
 + Parameters
-    + id (string, `E8C4AFB678ED62892503D196C685CE967A5BFAB5`) ... ID of the Image
+    + id (string, `E8C4AFB678ED62892503D196C685CE967A5BFAB5`) ... ID of the _base_ Image
 
 ### List all Image Transformations [GET]
 
@@ -401,8 +401,8 @@ Returns all available Image Transformations for a given Image in a form of an ar
 Note: all returned images will be in the _thumbnail_ view.
 
 + Parameters
-    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only images uploaded at or after this time are returned.
-    + name (optional, string, `Future%25`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
+    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only image transformations created at or after this time are returned.
+    + name (optional, string, `Future%25`) ... Image transformation name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
     + sort_by = `created_at DESC` (optional, string) ... Sort results by date of creation or name?
     
         + Values
@@ -507,7 +507,7 @@ An Image Transformation object gets returned in the response.
 
 ## Image Transformation [/images/{id}/transformations/{tid}{?view_type}]
 A single Image Transformation object. The Image Transformation resource represents an image derived from a _base_
-Image by applying a given transformation, i.e. rotation.
+Image by applying one or more transformations, i.e. rotation followed by resize.
 
 It is worth to note that Image Transformations are not "fully standalone" Images from the `v1` API point of view.
 E.g., the creator of the Image Transformation cannot set its visibility, which always be _public_, or in case of
