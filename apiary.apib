@@ -172,6 +172,7 @@ the values of these headers to make subsequent requests to those resources using
 - Compression
 - Support for async operations
 - Support for JSON-P callbacks
+- Specify JSON Schema for payloads
 - many other things&#8230; ;-)
 
 
@@ -189,21 +190,27 @@ Only these Image object attributes will get returned: `id`, `created_at`, `name`
 See Image resource section for Image visibility explanation and description of the Image object schema.
 
 + Response 200 (application/json)
+    
+    + Headers
+        
+            Link: <https://apiv1.futurimages.com/images?page=1>; rel="first",<https://apiv1.futurimages.com/images?page=1>; rel="last"
 
-        [
-            {
-                "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
-                "created_at": "2014-11-09T14:25:30Z",
-                "name": "Futurelytics Logo",
-                "description": null,
-                "public": true,
-                "owner": {
-                    "login": "futurimages@futurimages.com",
-                    "first_name": null
-                    "last_name": "Futurimages"                    
+    + Body
+    
+            [
+                {
+                    "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
+                    "created_at": "2014-11-09T14:25:30Z",
+                    "name": "Futurelytics Logo",
+                    "description": null,
+                    "public": true,
+                    "owner": {
+                        "login": "futurimages@futurimages.com",
+                        "first_name": null
+                        "last_name": "Futurimages"                    
+                    }
                 }
-            }
-        ]
+            ]
         
 ### Create an Image [POST]
 
@@ -218,6 +225,7 @@ An Image object gets returned in the response. See Image section for details.
 Mind that following restrictions apply:
 - only JPEG, PNG, WEBP, GIF (including animated GIF), BMP, TIFF and ICO image formats will get accepted
 - the size of the image must be 10MB at maximum
+- only **authenticated** call will get accepted, to ensure every uploaded image will have its owner
 
 + Request (application/json)
 
@@ -267,20 +275,26 @@ See Image resource section for Image visibility explanation and for description 
 
 + Response 200 (application/json)
 
-        [
-            {
-                "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
-                "created_at": "2014-11-09T14:25:30Z",
-                "name": "Futurelytics Logo",
-                "description": null,
-                "public": true,
-                "owner": {
-                    "login": "futurimages@futurimages.com",
-                    "first_name": null
-                    "last_name": "Futurimages"                    
+    + Headers
+        
+            Link: <https://apiv1.futurimages.com/images/public?page=1>; rel="first",<https://apiv1.futurimages.com/images/public?page=1>; rel="last"
+
+    + Body
+    
+            [
+                {
+                    "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
+                    "created_at": "2014-11-09T14:25:30Z",
+                    "name": "Futurelytics Logo",
+                    "description": null,
+                    "public": true,
+                    "owner": {
+                        "login": "futurimages@futurimages.com",
+                        "first_name": null
+                        "last_name": "Futurimages"                    
+                    }
                 }
-            }
-        ]        
+            ]        
         
 ## Image [/images/{id}{?view_type}]
 A single Image object. The Image resource is the central resource of the API. It represents an image uploaded
@@ -363,29 +377,35 @@ Note: all returned images will be in the _thumbnail_ view.
 
 + Response 200 (application/json)
 
-        [
-            {
-                "id": "2D2192BE718A57495A31D954FDC20025E2F84532",
-                "base_image_url": "https://apiv1.futurimages.com/images/E8C4AFB678ED62892503D196C685CE967A5BFAB5",
-                "applied_transformations": [
-                    "horizontal_flip"
-                ],
-                "created_at": "2014-11-09T23:05:10Z",
-                "name": "Futurelytics Logo - horizontal flip",
-                "description": null,
-                "created_by": {
-                    "login": "futurimages@futurimages.com",
-                    "first_name": null
-                    "last_name": "Futurimages"                    
-                },
-                "content": "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",
-                "content_type": "image/png",
-                "width": 200,
-                "height": 38,
-                "size": 5198,
-                "view_type": "thumbnail"
-            }
-        ]
+    + Headers
+        
+            Link: <https://apiv1.futurimages.com/images/E8C4AFB678ED62892503D196C685CE967A5BFAB5/transformations?page=1>; rel="first",<https://apiv1.futurimages.com/images/E8C4AFB678ED62892503D196C685CE967A5BFAB5/transformations?page=1>; rel="last"
+
+    + Body
+    
+            [
+                {
+                    "id": "2D2192BE718A57495A31D954FDC20025E2F84532",
+                    "base_image_url": "https://apiv1.futurimages.com/images/E8C4AFB678ED62892503D196C685CE967A5BFAB5",
+                    "applied_transformations": [
+                        "horizontal_flip"
+                    ],
+                    "created_at": "2014-11-09T23:05:10Z",
+                    "name": "Futurelytics Logo - horizontal flip",
+                    "description": null,
+                    "created_by": {
+                        "login": "futurimages@futurimages.com",
+                        "first_name": null
+                        "last_name": "Futurimages"                    
+                    },
+                    "content": "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",
+                    "content_type": "image/png",
+                    "width": 200,
+                    "height": 38,
+                    "size": 5198,
+                    "view_type": "thumbnail"
+                }
+            ]
         
 ### Create an Image Transformations [POST]
 
@@ -562,20 +582,26 @@ See Image resource section for Image visibility explanation and description of t
 
 + Response 200 (application/json)
 
-        [
-            {
-                "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
-                "created_at": "2014-11-09T14:25:30Z",
-                "name": "Futurelytics Logo",
-                "description": null,
-                "public": true,
-                "owner": {
-                    "login": "futurimages@futurimages.com",
-                    "first_name": null
-                    "last_name": "Futurimages"                    
+    + Headers
+        
+            Link: <https://apiv1.futurimages.com/users/E8C4AFB678ED62892503D196C685CE967A5BFAB5/images/public?page=1>; rel="first",<https://apiv1.futurimages.com/users/E8C4AFB678ED62892503D196C685CE967A5BFAB5/images/public?page=1>; rel="last"
+
+    + Body
+    
+            [
+                {
+                    "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
+                    "created_at": "2014-11-09T14:25:30Z",
+                    "name": "Futurelytics Logo",
+                    "description": null,
+                    "public": true,
+                    "owner": {
+                        "login": "futurimages@futurimages.com",
+                        "first_name": null
+                        "last_name": "Futurimages"                    
+                    }
                 }
-            }
-        ]   
+            ]   
         
 ## Authenticated User [/user]
 The authenticated User object. See User section for more details.
@@ -597,20 +623,26 @@ See Image resource section for Image visibility explanation and description of t
 
 + Response 200 (application/json)
 
-        [
-            {
-                "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
-                "created_at": "2014-11-09T14:25:30Z",
-                "name": "Futurelytics Logo",
-                "description": null,
-                "public": true,
-                "owner": {
-                    "login": "futurimages@futurimages.com",
-                    "first_name": null
-                    "last_name": "Futurimages"                    
+    + Headers
+        
+            Link: <https://apiv1.futurimages.com/user/images?page=1>; rel="first",<https://apiv1.futurimages.com/user/images?page=1>; rel="last"
+
+    + Body
+    
+            [
+                {
+                    "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
+                    "created_at": "2014-11-09T14:25:30Z",
+                    "name": "Futurelytics Logo",
+                    "description": null,
+                    "public": true,
+                    "owner": {
+                        "login": "futurimages@futurimages.com",
+                        "first_name": null
+                        "last_name": "Futurimages"                    
+                    }
                 }
-            }
-        ] 
+            ] 
     
 ## Authenticated User Public Image Collection [/user/images/public]
 
@@ -624,20 +656,26 @@ See Image resource section for Image visibility explanation and description of t
 
 + Response 200 (application/json)
 
-        [
-            {
-                "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
-                "created_at": "2014-11-09T14:25:30Z",
-                "name": "Futurelytics Logo",
-                "description": null,
-                "public": true,
-                "owner": {
-                    "login": "futurimages@futurimages.com",
-                    "first_name": null
-                    "last_name": "Futurimages"                    
+    + Headers
+        
+            Link: <https://apiv1.futurimages.com/user/images/public?page=1>; rel="first",<https://apiv1.futurimages.com/user/images/public?page=1>; rel="last"
+
+    + Body
+    
+            [
+                {
+                    "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
+                    "created_at": "2014-11-09T14:25:30Z",
+                    "name": "Futurelytics Logo",
+                    "description": null,
+                    "public": true,
+                    "owner": {
+                        "login": "futurimages@futurimages.com",
+                        "first_name": null
+                        "last_name": "Futurimages"                    
+                    }
                 }
-            }
-        ]
+            ]
         
 ## Authenticated User Private Image Collection [/user/images/private]
 
@@ -651,17 +689,23 @@ See Image resource section for Image visibility explanation and description of t
 
 + Response 200 (application/json)
 
-        [
-            {
-                "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
-                "created_at": "2014-11-09T12:25:30Z",
-                "name": "Futurelytics Logo - draft",
-                "description": null,
-                "public": false,
-                "owner": {
-                    "login": "futurimages@futurimages.com",
-                    "first_name": null
-                    "last_name": "Futurimages"                    
+    + Headers
+        
+            Link: <https://apiv1.futurimages.com/user/images/private?page=1>; rel="first",<https://apiv1.futurimages.com/user/images/private?page=1>; rel="last"
+
+    + Body
+    
+            [
+                {
+                    "id": "E8C4AFB678ED62892503D196C685CE967A5BFAB5",
+                    "created_at": "2014-11-09T12:25:30Z",
+                    "name": "Futurelytics Logo - draft",
+                    "description": null,
+                    "public": false,
+                    "owner": {
+                        "login": "futurimages@futurimages.com",
+                        "first_name": null
+                        "last_name": "Futurimages"                    
+                    }
                 }
-            }
-        ]         
+            ]         
