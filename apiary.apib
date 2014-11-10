@@ -190,7 +190,7 @@ Only these Image object attributes will get returned: `id`, `created_at`, `name`
 See Image resource section for Image visibility explanation and description of the Image object schema.
 
 + Parameters
-    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDTHH:MM:SSZ_. Only images uploaded at or after this time are returned.
+    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only images uploaded at or after this time are returned.
     + name (optional, string, `Future%25`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
     + sort_by = `created_at DESC` (optional, string) ... Sort results by date of creation or name?
     
@@ -288,7 +288,7 @@ Only these attributes will get returned: `id`, `created_at`, `name`, `descriptio
 See Image resource section for Image visibility explanation and for description of the Image object schema.
 
 + Parameters
-    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDTHH:MM:SSZ_. Only images uploaded at or after this time are returned.
+    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only images uploaded at or after this time are returned.
     + name (optional, string, `Future%25`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
     + sort_by = `created_at DESC` (optional, string) ... Sort results by date of creation or name?
     
@@ -401,7 +401,7 @@ Returns all available Image Transformations for a given Image in a form of an ar
 Note: all returned images will be in the _thumbnail_ view.
 
 + Parameters
-    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDTHH:MM:SSZ_. Only images uploaded at or after this time are returned.
+    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only images uploaded at or after this time are returned.
     + name (optional, string, `Future%25`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
     + sort_by = `created_at DESC` (optional, string) ... Sort results by date of creation or name?
     
