@@ -179,7 +179,7 @@ the values of these headers to make subsequent requests to those resources using
 # Group Image
 Image-related resources of the **Futurimages API**
 
-## Image Collection [/images]
+## Image Collection [/images{?since,name,sort_by}]
 
 ### List all Images [GET]
 
@@ -188,6 +188,17 @@ Returns a "summary" of the authenticated user’s Images or if called anonymousl
 Only these Image object attributes will get returned: `id`, `created_at`, `name`, `description`, `public` and `owner`.
 
 See Image resource section for Image visibility explanation and description of the Image object schema.
+
++ Parameters
+    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDTHH:MM:SSZ_. Only images uploaded at or after this time are returned.
+    + name (optional, string, `Future%`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
+    + sort_by = `created_at DESC` (optional, string) ... egr
+    
+        + Values
+            + `created_at ASC` gerg ege
+            + `created_at DESC` ww ww
+            + `name ASC`
+            + `name DESC`
 
 + Response 200 (application/json)
     
