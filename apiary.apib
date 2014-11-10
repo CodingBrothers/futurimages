@@ -169,6 +169,7 @@ the values of these headers to make subsequent requests to those resources using
 ## Roadmap
 
 - Extended metadata (e.g. image tags)
+- Allow searching by image name using [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used
 - Compression
 - Support for async operations
 - Support for JSON-P callbacks
@@ -179,7 +180,7 @@ the values of these headers to make subsequent requests to those resources using
 # Group Image
 Image-related resources of the **Futurimages API**
 
-## Image Collection [/images{?since,name,sort_by}]
+## Image Collection [/images{?since,sort_by}]
 
 ### List all Images [GET]
 
@@ -191,7 +192,6 @@ See Image resource section for Image visibility explanation and description of t
 
 + Parameters
     + since (optional, string, `2014%2D11%2D05T10%3A00%3A00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only images uploaded at or after this time are returned.
-    + name (optional, string, `Future%25`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
     + sort_by = `created%5Fat%20DESC` (optional, string) ... Sort results by date of creation or name?
     
         + Values
@@ -277,7 +277,7 @@ Mind that following restrictions apply:
                 "view_type": "full"
             }        
         
-## Public Image Collection [/images/public{?since,name,sort_by}]        
+## Public Image Collection [/images/public{?since,sort_by}]        
         
 ### List all public Images [GET]
 
@@ -289,7 +289,6 @@ See Image resource section for Image visibility explanation and for description 
 
 + Parameters
     + since (optional, string, `2014%2D11%2D05T10%3A00%3A00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only images uploaded at or after this time are returned.
-    + name (optional, string, `Future%25`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
     + sort_by = `created%5Fat%20DESC` (optional, string) ... Sort results by date of creation or name?
     
         + Values
@@ -389,7 +388,7 @@ The states _id_, _created_at_, and _owner_ are assigned by the Futurimages API a
 Removes a given image **as well as all its transformations!**. Only the _owner_ of the image can also delete it.
 + Response 204
 
-## Image Transformation Collection [/images/{id}/transformations{?since,name,sort_by}]
+## Image Transformation Collection [/images/{id}/transformations{?since,sort_by}]
 
 + Parameters
     + id (string, `E8C4AFB678ED62892503D196C685CE967A5BFAB5`) ... ID of the _base_ Image
@@ -402,7 +401,6 @@ Note: all returned images will be in the _thumbnail_ view.
 
 + Parameters
     + since (optional, string, `2014%2D11%2D05T10%3A00%3A00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only image transformations created at or after this time are returned.
-    + name (optional, string, `Future%25`) ... Image transformation name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
     + sort_by = `created%5Fat%20DESC` (optional, string) ... Sort results by date of creation or name?
     
         + Values
