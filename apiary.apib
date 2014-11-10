@@ -192,11 +192,11 @@ See Image resource section for Image visibility explanation and description of t
 + Parameters
     + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDTHH:MM:SSZ_. Only images uploaded at or after this time are returned.
     + name (optional, string, `Future%`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
-    + sort_by = `created_at DESC` (optional, string) ... egr
+    + sort_by = `created_at DESC` (optional, string) ... Sort results by date of creation or name?
     
         + Values
-            + `created_at ASC` gerg ege
-            + `created_at DESC` ww ww
+            + `created_at ASC`
+            + `created_at DESC`
             + `name ASC`
             + `name DESC`
 
@@ -274,7 +274,7 @@ Mind that following restrictions apply:
             "view_type": "full"
         }        
         
-## Public Image Collection [/images/public]        
+## Public Image Collection [/images/public{?since,name,sort_by}]        
         
 ### List all public Images [GET]
 
@@ -283,6 +283,17 @@ Returns a "summary" of all public Images. I.e. image contents will not be includ
 Only these attributes will get returned: `id`, `created_at`, `name`, `description`, `public` and `owner`.
 
 See Image resource section for Image visibility explanation and for description of the Image object schema.
+
++ Parameters
+    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDTHH:MM:SSZ_. Only images uploaded at or after this time are returned.
+    + name (optional, string, `Future%`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
+    + sort_by = `created_at DESC` (optional, string) ... Sort results by date of creation or name?
+    
+        + Values
+            + `created_at ASC`
+            + `created_at DESC`
+            + `name ASC`
+            + `name DESC`
 
 + Response 200 (application/json)
 
@@ -375,7 +386,7 @@ The states _id_, _created_at_, and _owner_ are assigned by the Futurimages API a
 Removes a given image **as well as all its transformations!**. Only the _owner_ of the image can also delete it.
 + Response 204
 
-## Image Transformation Collection [/images/{id}/transformations]
+## Image Transformation Collection [/images/{id}/transformations{?since,name,sort_by}]
 
 + Parameters
     + id (string, `E8C4AFB678ED62892503D196C685CE967A5BFAB5`) ... ID of the Image
@@ -385,6 +396,17 @@ Removes a given image **as well as all its transformations!**. Only the _owner_ 
 Returns all available Image Transformations for a given Image in a form of an array of Image Transformation objects (see Image Transformation section for details).
 
 Note: all returned images will be in the _thumbnail_ view.
+
++ Parameters
+    + since (optional, string, `2014-11-05T10:00:00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDTHH:MM:SSZ_. Only images uploaded at or after this time are returned.
+    + name (optional, string, `Future%`) ... Image name pattern to search for. [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used.
+    + sort_by = `created_at DESC` (optional, string) ... Sort results by date of creation or name?
+    
+        + Values
+            + `created_at ASC`
+            + `created_at DESC`
+            + `name ASC`
+            + `name DESC`
 
 + Response 200 (application/json)
 
@@ -399,7 +421,10 @@ Note: all returned images will be in the _thumbnail_ view.
                     "id": "2D2192BE718A57495A31D954FDC20025E2F84532",
                     "base_image_url": "https://apiv1.futurimages.com/images/E8C4AFB678ED62892503D196C685CE967A5BFAB5",
                     "applied_transformations": [
-                        "horizontal_flip"
+                        {
+                            "type": "flip",
+                            "direction": "horizontal"
+                        }
                     ],
                     "created_at": "2014-11-09T23:05:10Z",
                     "name": "Futurelytics Logo - horizontal flip",
@@ -588,6 +613,7 @@ The User resource has the following attributes:
 Returns a "summary" of the user’s public Images. I.e. image contents will not be included in the response.
 
 Only these Image object attributes will get returned: `id`, `created_at`, `name`, `description`, `public` and `owner`.
+Results will always be sorted by date of creation in the descending order.
 
 See Image resource section for Image visibility explanation and description of the Image object schema.
 
@@ -629,6 +655,7 @@ The authenticated User object. See User section for more details.
 Returns a "summary" of the authenticated user’s Images. I.e. image contents will not be included in the response.
 
 Only these Image object attributes will get returned: `id`, `created_at`, `name`, `description`, `public` and `owner`.
+Results will always be sorted by date of creation in the descending order.
 
 See Image resource section for Image visibility explanation and description of the Image object schema.
 
@@ -662,6 +689,7 @@ See Image resource section for Image visibility explanation and description of t
 Returns a "summary" of the authenticated user’s public Images. I.e. image contents will not be included in the response.
 
 Only these Image object attributes will get returned: `id`, `created_at`, `name`, `description`, `public` and `owner`.
+Results will always be sorted by date of creation in the descending order.
 
 See Image resource section for Image visibility explanation and description of the Image object schema.
 
@@ -695,6 +723,7 @@ See Image resource section for Image visibility explanation and description of t
 Returns a "summary" of the authenticated user’s private Images. I.e. image contents will not be included in the response.
 
 Only these Image object attributes will get returned: `id`, `created_at`, `name`, `description`, `public` and `owner`.
+Results will always be sorted by date of creation in the descending order.
 
 See Image resource section for Image visibility explanation and description of the Image object schema.
 
