@@ -6,7 +6,7 @@
 	version="2.5">
 
 	<listener>
-		<listener-class>com.motomapia.GuiceConfig</listener-class>
+		<listener-class>com.codingbrothers.futurimages.config.FuturimagesBootstrap</listener-class>
 	</listener>
 
 	<filter>
