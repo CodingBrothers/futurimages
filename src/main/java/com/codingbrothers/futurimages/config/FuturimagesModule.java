@@ -1,4 +1,4 @@
-package com.codingbrothers.futurimages.boot;
+package com.codingbrothers.futurimages.config;
 
 import com.codingbrothers.futurimages.domain.Image;
 import com.codingbrothers.futurimages.service.Futurimages;
