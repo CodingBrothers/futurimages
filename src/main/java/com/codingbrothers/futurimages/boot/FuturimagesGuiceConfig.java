@@ -1,4 +1,4 @@
-package com.codingbrothers.futurimages.config;
+package com.codingbrothers.futurimages.boot;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

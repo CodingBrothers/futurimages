@@ -1,4 +1,4 @@
-package com.codingbrothers.futurimages.config;
+package com.codingbrothers.futurimages.boot;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

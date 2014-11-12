@@ -6,7 +6,7 @@
 	version="2.5">
 
 	<listener>
-		<listener-class>com.codingbrothers.futurimages.config.FuturimagesGuiceConfig</listener-class>
+		<listener-class>com.codingbrothers.futurimages.boot.FuturimagesGuiceConfig</listener-class>
 	</listener>
 
 </web-app>
