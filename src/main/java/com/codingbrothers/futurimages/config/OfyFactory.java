@@ -3,7 +3,7 @@ package com.codingbrothers.futurimages.config;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.codingbrothers.futurimages.entity.Image;
+import com.codingbrothers.futurimages.domain.Image;
 import com.google.inject.Injector;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;

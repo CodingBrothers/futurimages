@@ -1,4 +1,4 @@
-package com.codingbrothers.futurimages.entity;
+package com.codingbrothers.futurimages.domain;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;

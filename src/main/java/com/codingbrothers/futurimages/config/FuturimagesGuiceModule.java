@@ -1,6 +1,6 @@
 package com.codingbrothers.futurimages.config;
 
-import com.codingbrothers.futurimages.entity.Image;
+import com.codingbrothers.futurimages.domain.Image;
 import com.codingbrothers.futurimages.service.Futurimages;
 import com.codingbrothers.futurimages.service.impl.FuturimagesImpl;
 import com.google.inject.AbstractModule;
