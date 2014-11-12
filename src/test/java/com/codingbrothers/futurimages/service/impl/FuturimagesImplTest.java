@@ -12,7 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codingbrothers.futurimages.config.FuturimagesGuiceModule;
+import com.codingbrothers.futurimages.config.FuturimagesModule;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -29,7 +29,7 @@ public class FuturimagesImplTest {
 			new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(50)
 					.setAutoIdAllocationPolicy(AutoIdAllocationPolicy.SCATTERED).setNoIndexAutoGen(true));
 
-	private Closeable closeable;
+	private Closeable objectifyServiceHandle;
 
 	@Inject
 	private FuturimagesImpl futurimages;
@@ -37,13 +37,13 @@ public class FuturimagesImplTest {
 	@Before
 	public void setUp() {
 		appengineServices.setUp();
-		Guice.createInjector(new FuturimagesGuiceModule()).injectMembers(this);
-		closeable = ObjectifyService.begin();
+		Guice.createInjector(new FuturimagesModule()).injectMembers(this);
+		objectifyServiceHandle = ObjectifyService.begin();
 	}
 
 	@After
 	public void tearDown() throws IOException {
-		closeable.close();
+		objectifyServiceHandle.close();
 		appengineServices.tearDown();
 	}
 

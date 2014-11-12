@@ -8,11 +8,11 @@ import com.google.inject.Provides;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
-public class FuturimagesGuiceModule extends AbstractModule {
+public class FuturimagesModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(OfyFactory.class).asEagerSingleton();
+		bind(FuturimagesObjectifyFactory.class).asEagerSingleton();
 
 		bind(Futurimages.class).to(FuturimagesImpl.class).asEagerSingleton();
 
