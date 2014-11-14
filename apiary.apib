@@ -180,7 +180,7 @@ the values of these headers to make subsequent requests to those resources using
 # Group Image
 Image-related resources of the **Futurimages API**
 
-## Image Collection [/images{?since,sort_by}]
+## Image Collection [/images{?since,sort_by_dir}]
 
 ### List all Images [GET]
 
@@ -192,13 +192,11 @@ See Image resource section for Image visibility explanation and description of t
 
 + Parameters
     + since (optional, string, `2014%2D11%2D05T10%3A00%3A00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only images uploaded at or after this time are returned.
-    + sort_by = `created%5Fat%20DESC` (optional, string) ... Sort results by date of creation or name?
+    + sort_by_dir = `desc` (optional, string) ... Sort results by date of creation in descending or ascending order?
     
         + Values
-            + `created%5Fat%20ASC`
-            + `created%5Fat%20DESC`
-            + `name%20ASC`
-            + `name%20DESC`
+            + `desc`
+            + `asc`
 
 + Response 200 (application/json)
     
@@ -277,7 +275,7 @@ Mind that following restrictions apply:
                 "view_type": "full"
             }        
         
-## Public Image Collection [/images/public{?since,sort_by}]        
+## Public Image Collection [/images/public{?since,sort_by_dir}]        
         
 ### List all public Images [GET]
 
@@ -289,13 +287,11 @@ See Image resource section for Image visibility explanation and for description 
 
 + Parameters
     + since (optional, string, `2014%2D11%2D05T10%3A00%3A00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only images uploaded at or after this time are returned.
-    + sort_by = `created%5Fat%20DESC` (optional, string) ... Sort results by date of creation or name?
+    + sort_by_dir = `desc` (optional, string) ... Sort results by date of creation in descending or ascending order?
     
         + Values
-            + `created%5Fat%20ASC`
-            + `created%5Fat%20DESC`
-            + `name%20ASC`
-            + `name%20DESC`
+            + `desc`
+            + `asc`
 
 + Response 200 (application/json)
 
@@ -388,7 +384,7 @@ The states _id_, _created_at_, and _owner_ are assigned by the Futurimages API a
 Removes a given image **as well as all its transformations!**. Only the _owner_ of the image can also delete it.
 + Response 204
 
-## Image Transformation Collection [/images/{id}/transformations{?since,sort_by}]
+## Image Transformation Collection [/images/{id}/transformations{?since,sort_by_dir}]
 
 + Parameters
     + id (string, `E8C4AFB678ED62892503D196C685CE967A5BFAB5`) ... ID of the _base_ Image
@@ -401,13 +397,11 @@ Note: all returned images will be in the _thumbnail_ view.
 
 + Parameters
     + since (optional, string, `2014%2D11%2D05T10%3A00%3A00Z`) ... A timestamp in ISO 8601 format: _YYYY-MM-DDThh:mmZ_. Only image transformations created at or after this time are returned.
-    + sort_by = `created%5Fat%20DESC` (optional, string) ... Sort results by date of creation or name?
+    + sort_by_dir = `desc` (optional, string) ... Sort results by date of creation in descending or ascending order?
     
         + Values
-            + `created%5Fat%20ASC`
-            + `created%5Fat%20DESC`
-            + `name%20ASC`
-            + `name%20DESC`
+            + `desc`
+            + `asc`
 
 + Response 200 (application/json)
 
