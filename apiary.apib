@@ -166,6 +166,11 @@ the values of these headers to make subsequent requests to those resources using
 `If-Modified-Since` headers, respectively. If the resource has not changed, the server will return a
 `304 Not Modified`.
 
+## Caching
+
+Developers should note that the server may return cached responses. E.g. an image which has just been uploaded
+to Futurimages, may not be immediately visible via this API.
+
 ## Roadmap
 
 - Extended metadata (e.g. image tags)
