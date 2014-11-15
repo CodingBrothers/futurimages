@@ -17,6 +17,6 @@ public class FuturimagesServletModule extends GuiceSystemServiceServletModule {
 		filter("/*").through(ObjectifyFilter.class);
 		filter("/*").through(ObjectifySessionClearingFilter.class);
 
-		serveGuiceSystemServiceServlet("/*", Collections.singletonList(FuturimagesAPI.class));
+		serveGuiceSystemServiceServlet("/_ah/spi/*", Collections.singletonList(FuturimagesAPI.class));
 	}
 }

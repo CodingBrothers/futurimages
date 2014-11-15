@@ -26,6 +26,10 @@ public class ObjectifySessionClearingFilter extends AbstractFilter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
 			ServletException {
-		objectifyProvider.get().clear();
+		try {
+			chain.doFilter(request, response);
+		} finally {
+			objectifyProvider.get().clear();
+		}
 	}
 }
