@@ -171,10 +171,15 @@ the values of these headers to make subsequent requests to those resources using
 Developers should note that the server may return cached responses. E.g. an image which has just been uploaded
 to Futurimages, may not be immediately visible via this API.
 
+## Internationalization
+
+i18n is not yet supported, but high on the to-do list. All messages are returned in the `en_US` locale.
+
 ## Roadmap
 
 - Extended metadata (e.g. image tags)
-- Allow searching by image name using [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp) can be used
+- i18n (e.g., by respecting the `Accept-Language` http header)
+- Allow searching by image name using [SQL Wildcards](http://www.w3schools.com/sql/sql_wildcards.asp)
 - Compression
 - Support for async operations
 - Support for JSON-P callbacks
