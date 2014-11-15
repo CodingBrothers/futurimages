@@ -115,6 +115,12 @@ Where possible, API v3 strives to use appropriate HTTP verbs for each action.
 - 405 `Method Not Allowed` - Requested method is not supported for the specified resource.
 - 503 `Service Unavailable` - The service is temporary unavailable (e.g. scheduled Service Maintenance). Try again later.
 
+## Status codes
+
+The server will try to always return the http status code as response's status code. Although, in some cases, it may happen
+that `200 OK` is returned and the real status code is made accessible as top-level integer attribute `http_status_code`. Hence,
+it's recommended to always check for this attribute in case of `200 OK` responses.
+
 ## Authentication
 
 At the moment, the API makes use of [Google+](https://developers.google.com/+) services for authentication/authorization purposes and managing User identity.
