@@ -8,7 +8,7 @@ import com.google.inject.Provides;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
-public class FuturimagesModule extends AbstractModule {
+public class FuturimagesCommonModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
