@@ -8,6 +8,7 @@ public class FuturimagesGuiceConfig extends GuiceServletContextListener {
 
 	@Override
 	protected Injector getInjector() {
-		return Guice.createInjector(new FuturimagesCommonModule(), new FuturimagesServletModule(), new FuturimagesApiV1Module());
+		return Guice.createInjector(new FuturimagesCommonModule(), new FuturimagesApiV1Module(),
+				new FuturimagesServletModule());
 	}
 }

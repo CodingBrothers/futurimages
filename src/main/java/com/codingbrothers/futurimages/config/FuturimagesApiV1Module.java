@@ -1,38 +1,43 @@
 package com.codingbrothers.futurimages.config;
 
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
-import javax.validation.executable.ExecutableValidator;
+import java.util.Set;
 
-import org.hibernate.validator.HibernateValidator;
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
+
+import org.aopalliance.intercept.MethodInvocation;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
 
+import com.codingbrothers.futurimages.apiv1.ImagesV1;
+import com.codingbrothers.futurimages.util.ValidatingInterceptor;
+import com.google.api.server.spi.config.Api;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provider;
+import com.google.inject.matcher.Matchers;
 
 public class FuturimagesApiV1Module extends AbstractModule {
 
+	private Provider<ImagesV1> provider;
+
 	@Override
 	protected void configure() {
-		bind(ExecutableValidator.class).toInstance(getValidationFactory().getValidator().forExecutables());
+		bind(ImagesV1.class).asEagerSingleton();
+
+		ResourceBundleMessageInterpolator messageInterpolator = new ResourceBundleMessageInterpolator(
+				new PlatformResourceBundleLocator("messages"));
+
+		ValidatingInterceptor validatingInterceptor = new ValidatingInterceptor(messageInterpolator) {
+
+			@Override
+			protected Object handleViolations(MethodInvocation invocation, Set<ConstraintViolation<Object>> violations) {
+				throw new ValidationException("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			}
+		};
+		// requestInjection(validatingInterceptor);
+
+		bindInterceptor(Matchers.annotatedWith(Api.class), Matchers.any(), validatingInterceptor);
+
+		provider = binder().getProvider(ImagesV1.class);
 	}
-
-	// is here primarily because not whole codebase can be managed by Guice (namely woven aspects)
-	// unfortunately, the EndpointsValidationAspect needs an access to a ValidatorFactory impl
-	public static ValidatorFactory getValidationFactory() {
-		return ValidatorFactoryHolder.INSTANCE;
-	}
-
-	private static class ValidatorFactoryHolder {
-
-		// TODO: sort out calling hibValidationFactory.close() when app is being teared down
-		// - is it possible within AppEngine, at all? found out that, e.g., the contextDestroyed() is never called...
-		private static final ValidatorFactory INSTANCE = Validation
-				.byProvider(HibernateValidator.class)
-				.configure()
-				.messageInterpolator(
-						new ResourceBundleMessageInterpolator(new PlatformResourceBundleLocator("messages")))
-				.buildValidatorFactory();
-	}
-
 }
