@@ -1,0 +1,126 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://futurimages-id.appspot.com/_ah/api",
+  "name" : "futurimages",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://futurimages-id.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "futurimages.imagesV1.getImage" : {
+      "path" : "response/{}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImagesV1.getImage",
+      "request" : {
+        "parameters" : {
+          "" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "futurimages.imagesV1.removeImage" : {
+      "path" : "image/{}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImagesV1.removeImage",
+      "request" : {
+        "parameters" : {
+          "" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "ClientError" : {
+        "id" : "ClientError",
+        "type" : "object",
+        "properties" : {
+          "httpStatusCode" : {
+            "type" : "integer"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Error"
+            }
+          }
+        }
+      },
+      "Error" : {
+        "id" : "Error",
+        "type" : "object",
+        "properties" : {
+          "resource" : {
+            "type" : "string"
+          },
+          "field" : {
+            "type" : "string"
+          },
+          "code" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Response" : {
+        "id" : "Response",
+        "type" : "object",
+        "properties" : {
+        }
+      }
+    },
+    "methods" : {
+      "com.codingbrothers.futurimages.apiv1.ImagesV1.getImage" : {
+        "request" : {
+          "$ref" : "ClientError"
+        },
+        "response" : {
+          "$ref" : "Response"
+        }
+      },
+      "com.codingbrothers.futurimages.apiv1.ImagesV1.removeImage" : {
+      }
+    }
+  }
+}
