@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface GAETest {
 
-	Class<? extends GAELocalServicesConfigurator>[] configurators() default {};
+	Class<? extends GAETestConfigurator>[] configurators() default {};
 }

@@ -7,14 +7,15 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import org.jukito.JukitoRunner;
 import org.jukito.UseModules;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.codingbrothers.appengine.testing.Capability;
 import com.codingbrothers.appengine.testing.GAECapabilities;
 import com.codingbrothers.appengine.testing.GAECapability;
+import com.codingbrothers.appengine.testing.GAERunner;
 import com.codingbrothers.appengine.testing.GAETest;
 import com.codingbrothers.futurimages.config.FuturimagesCommonModule;
 import com.codingbrothers.futurimages.config.FuturimagesTestModule;
@@ -29,12 +30,16 @@ import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
-@RunWith(JukitoRunner.class)
+@RunWith(GAERunner.class)
 @UseModules({ FuturimagesCommonModule.class, FuturimagesTestModule.class })
 public class FuturimagesImplTest {
 
 	@Inject
 	private FuturimagesImpl futurimages;
+
+	@Before
+	public void setUp() {
+	}
 
 	@Test
 	@GAETest
@@ -59,7 +64,7 @@ public class FuturimagesImplTest {
 	}
 
 	@Test(expected = com.google.apphosting.api.ApiProxy.CapabilityDisabledException.class)
-	@GAETest(configurators=HighReplicationDatastore.class)
+	@GAETest(configurators = HighReplicationDatastore.class)
 	@GAECapabilities(@GAECapability(capability = Capability.DATASTORE, status = CapabilityStatus.DISABLED))
 	public void test2() {
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();

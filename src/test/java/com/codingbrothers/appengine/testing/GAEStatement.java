@@ -4,10 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.MultipleFailureException;
+import org.junit.runners.model.Statement;
 
 import com.codingbrothers.futurimages.util.ForwardingLocalServerEnvironment;
 import com.google.appengine.tools.development.LocalServerEnvironment;
@@ -18,12 +17,42 @@ import com.google.inject.Binding;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
-class GAETestMethodInterceptor implements MethodInterceptor {
+class GAEStatement extends Statement {
 
-	@Inject
-	private Injector injector;
+	protected final Statement testMethodCompleteStatement;
 
-	public Object invoke(MethodInvocation invocation) throws Throwable {
+	protected final FrameworkMethod testMethod;
+
+	protected final Injector injector;
+
+	public GAEStatement(Statement testMethodCompleteStatement, FrameworkMethod testMethod, Injector injector) {
+		this.testMethodCompleteStatement = testMethodCompleteStatement;
+		this.testMethod = testMethod;
+		this.injector = injector;
+	}
+
+	@Override
+	public void evaluate() throws Throwable {
+		List<Throwable> errors = new ArrayList<Throwable>();
+		LocalServiceTestHelper helper = null;
+		try {
+			(helper = initHelper()).setUp();
+			testMethodCompleteStatement.evaluate();
+		} catch (Throwable e) {
+			errors.add(e);
+		} finally {
+			try {
+				if (helper != null) {
+					helper.tearDown();
+				}
+			} catch (Throwable e) {
+				errors.add(e);
+			}
+		}
+		MultipleFailureException.assertEmpty(errors);
+	}
+
+	protected LocalServiceTestHelper initHelper() throws InstantiationException, IllegalAccessException {
 		List<Binding<LocalServiceTestConfig>> localServiceTestConfigBindings = injector.findBindingsByType(TypeLiteral
 				.get(LocalServiceTestConfig.class));
 
@@ -45,7 +74,7 @@ class GAETestMethodInterceptor implements MethodInterceptor {
 			capabilitiesServiceTestConfig = new LocalCapabilitiesServiceTestConfig();
 			localServiceTestConfigs.add(capabilitiesServiceTestConfig);
 		}
-		GAECapabilities gaeCapabilities = invocation.getMethod().getAnnotation(GAECapabilities.class);
+		GAECapabilities gaeCapabilities = testMethod.getAnnotation(GAECapabilities.class);
 		if (gaeCapabilities != null) {
 			for (GAECapability gaeCapability : gaeCapabilities.value()) {
 				capabilitiesServiceTestConfig.setCapabilityStatus(gaeCapability.capability().getCapability(),
@@ -54,13 +83,12 @@ class GAETestMethodInterceptor implements MethodInterceptor {
 		}
 
 		// Configurer
-		GAETest gaeTest = invocation.getMethod().getAnnotation(GAETest.class);
-		for (Class<? extends GAELocalServicesConfigurator> configurer : gaeTest.configurators()) {
+		GAETest gaeTest = testMethod.getAnnotation(GAETest.class);
+		for (Class<? extends GAETestConfigurator> configurer : gaeTest.configurators()) {
 			configurer.newInstance().configure(localServiceTestConfigs);
 		}
 
-		LocalServiceTestHelper localServiceTestHelper = new LocalServiceTestHelper(
-				localServiceTestConfigs.toArray(new LocalServiceTestConfig[0])) {
+		return new LocalServiceTestHelper(localServiceTestConfigs.toArray(new LocalServiceTestConfig[0])) {
 
 			@Override
 			protected LocalServerEnvironment newLocalServerEnvironment() {
@@ -73,12 +101,5 @@ class GAETestMethodInterceptor implements MethodInterceptor {
 				};
 			}
 		};
-
-		localServiceTestHelper.setUp();
-		try {
-			return invocation.proceed();
-		} finally {
-			localServiceTestHelper.tearDown();
-		}
 	}
 }

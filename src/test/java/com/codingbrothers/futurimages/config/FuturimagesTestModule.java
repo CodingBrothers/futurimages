@@ -2,7 +2,6 @@ package com.codingbrothers.futurimages.config;
 
 import org.jukito.JukitoModule;
 
-import com.codingbrothers.appengine.testing.GAETestModule;
 import com.codingbrothers.futurimages.util.ObjectifyLocalServiceTestConfig;
 import com.google.appengine.api.datastore.dev.LocalDatastoreService.AutoIdAllocationPolicy;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -14,7 +13,6 @@ public class FuturimagesTestModule extends JukitoModule {
 
 	@Override
 	protected void configureTest() {
-		install(new GAETestModule());
 	}
 
 	@Provides

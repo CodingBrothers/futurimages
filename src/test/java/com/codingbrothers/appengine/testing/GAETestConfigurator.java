@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestConfig;
 
-public interface GAELocalServicesConfigurator {
+public interface GAETestConfigurator {
 
 	void configure(List<LocalServiceTestConfig> configs);
 }
