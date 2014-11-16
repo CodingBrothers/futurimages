@@ -18,6 +18,7 @@ import com.codingbrothers.appengine.testing.GAECapability;
 import com.codingbrothers.appengine.testing.GAETest;
 import com.codingbrothers.futurimages.config.FuturimagesCommonModule;
 import com.codingbrothers.futurimages.config.FuturimagesTestModule;
+import com.codingbrothers.futurimages.config.HighReplicationDatastore;
 import com.codingbrothers.futurimages.domain.Image;
 import com.google.appengine.api.capabilities.CapabilityStatus;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -58,7 +59,7 @@ public class FuturimagesImplTest {
 	}
 
 	@Test(expected = com.google.apphosting.api.ApiProxy.CapabilityDisabledException.class)
-	@GAETest
+	@GAETest(configurators=HighReplicationDatastore.class)
 	@GAECapabilities(@GAECapability(capability = Capability.DATASTORE, status = CapabilityStatus.DISABLED))
 	public void test2() {
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();

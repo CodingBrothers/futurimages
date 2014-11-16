@@ -2,10 +2,10 @@
 <datastore-indexes autoGenerate="false">
 
 	<datastore-index kind="com.codingbrothers.futurimages.domain.Image"
-		ancestor="false">
-		<property name="public" direction="asc" />
-		<property name="userId" direction="asc" />
-		<property name="createdAt" direction="desc" />
-	</datastore-index>
+	ancestor="false">
+	<property name="public" direction="asc" />
+	<property name="userId" direction="asc" />
+	<property name="createdAt" direction="desc" />
+</datastore-index>
 
 </datastore-indexes>

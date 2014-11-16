@@ -26,7 +26,7 @@ public class FuturimagesTestModule extends JukitoModule {
 	@Provides
 	@Named("FuturimagesLocalDatastoreServiceTestConfig")
 	LocalServiceTestConfig provideLocalDatastoreServiceTestConfig() {
-		return new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(1)
-				.setAutoIdAllocationPolicy(AutoIdAllocationPolicy.SCATTERED).setNoIndexAutoGen(true);
+		return new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(0)
+				.setAutoIdAllocationPolicy(AutoIdAllocationPolicy.SCATTERED).setNoIndexAutoGen(false);
 	}
 }

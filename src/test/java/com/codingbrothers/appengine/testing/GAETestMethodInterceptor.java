@@ -53,6 +53,12 @@ class GAETestMethodInterceptor implements MethodInterceptor {
 			}
 		}
 
+		// Configurer
+		GAETest gaeTest = invocation.getMethod().getAnnotation(GAETest.class);
+		for (Class<? extends GAELocalServicesConfigurator> configurer : gaeTest.configurators()) {
+			configurer.newInstance().configure(localServiceTestConfigs);
+		}
+
 		LocalServiceTestHelper localServiceTestHelper = new LocalServiceTestHelper(
 				localServiceTestConfigs.toArray(new LocalServiceTestConfig[0])) {
 
