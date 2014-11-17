@@ -1,39 +1,63 @@
 package com.codingbrothers.futurimages.util;
 
+import java.util.Objects;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.MessageInterpolator;
-import javax.validation.Validation;
 import javax.validation.executable.ExecutableValidator;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.hibernate.validator.HibernateValidator;
 
 public abstract class ValidatingInterceptor implements MethodInterceptor {
 
-	protected final ExecutableValidator executableValidator;
+	private final ExecutableValidator executableValidator;
+	private final boolean validateParameters;
+	private final boolean validateReturnType;
 
-	public ValidatingInterceptor(MessageInterpolator messageInterpolator) {
-		executableValidator = Validation.byProvider(HibernateValidator.class).configure()
-				.messageInterpolator(messageInterpolator).buildValidatorFactory().getValidator().forExecutables();
+	public ValidatingInterceptor(ExecutableValidator executableValidator, boolean validateParameters,
+			boolean validateReturnType) {
+		this.executableValidator = Objects.requireNonNull(executableValidator);
+		this.validateParameters = validateParameters;
+		this.validateReturnType = validateReturnType;
 	}
 
-	protected abstract Object handleViolations(MethodInvocation invocation, Set<ConstraintViolation<Object>> violations);
-
 	@Override
-	public Object invoke(MethodInvocation invocation) throws Throwable {
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(invocation.getThis(),
-				invocation.getMethod(), invocation.getArguments(), getGroups());
-		if (violations.isEmpty()) {
-			return invocation.proceed();
+	public final Object invoke(MethodInvocation invocation) throws Throwable {
+		Class<?>[] groups = getGroups(invocation);
+
+		Set<ConstraintViolation<Object>> violations = null;
+
+		if (validateParameters) {
+			violations = executableValidator.validateParameters(invocation.getThis(), invocation.getMethod(),
+					invocation.getArguments(), groups);
+		}
+
+		if (violations == null || violations.isEmpty()) {
+			Object result = invocation.proceed();
+			if (validateReturnType) {
+				violations = executableValidator.validateReturnValue(invocation.getThis(), invocation.getMethod(),
+						invocation.getArguments(), groups);
+			}
+			if (violations == null || violations.isEmpty()) {
+				return result;
+			} else {
+				return handleReturnTypeViolations(invocation, violations);
+			}
 		} else {
-			return handleViolations(invocation, violations);
+			return handleParametersViolations(invocation, violations);
 		}
 	}
 
-	protected Class<?>[] getGroups() {
-		return new Class[] { javax.validation.groups.Default.class };
+	protected Class<?>[] getGroups(MethodInvocation invocation) {
+		return new Class<?>[0];
+	}
+
+	protected Object handleParametersViolations(MethodInvocation invocation, Set<ConstraintViolation<Object>> violations) {
+		throw new UnsupportedOperationException();
+	}
+
+	protected Object handleReturnTypeViolations(MethodInvocation invocation, Set<ConstraintViolation<Object>> violations) {
+		throw new UnsupportedOperationException();
 	}
 }

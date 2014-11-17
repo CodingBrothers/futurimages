@@ -3,6 +3,7 @@ package com.codingbrothers.futurimages.config;
 import com.codingbrothers.futurimages.domain.Image;
 import com.codingbrothers.futurimages.service.Futurimages;
 import com.codingbrothers.futurimages.service.impl.FuturimagesImpl;
+import com.codingbrothers.futurimages.util.RequestContext;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.googlecode.objectify.Objectify;
@@ -17,6 +18,8 @@ public class FuturimagesCommonModule extends AbstractModule {
 		bind(Futurimages.class).to(FuturimagesImpl.class).asEagerSingleton();
 
 		bind(Image.class);
+		
+		bind(RequestContext.class);
 	}
 
 	@Provides

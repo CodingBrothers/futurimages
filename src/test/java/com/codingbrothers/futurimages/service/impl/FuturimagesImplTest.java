@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 @RunWith(GAERunner.class)
-@UseModules({ FuturimagesCommonModule.class, FuturimagesTestModule.class })
+@UseModules({ FuturimagesTestModule.class, FuturimagesCommonModule.class })
 public class FuturimagesImplTest {
 
 	@Inject
