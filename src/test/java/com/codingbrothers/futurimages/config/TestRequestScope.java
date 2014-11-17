@@ -3,6 +3,8 @@ package com.codingbrothers.futurimages.config;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.codingbrothers.futurimages.util.RequestContext;
@@ -18,7 +20,7 @@ public class TestRequestScope implements Scope {
 		@Override
 		public RequestContext get() {
 			HttpServletRequest req = mock(HttpServletRequest.class);
-			doReturn(null).when(req.getLocale());
+			doReturn(Locale.getDefault()).when(req).getLocale();
 			return new RequestContext(req);
 		}
 	};
