@@ -55,6 +55,14 @@ public class ClientError extends ResponseWithHttpStatusCode {
 	private String message;
 	private List<Error> errors;
 
+	public ClientError() {
+	}
+	
+	public ClientError(String message, List<Error> errors) {
+		this.message = message;
+		this.errors = errors;
+	}
+
 	public String getMessage() {
 		return message;
 	}

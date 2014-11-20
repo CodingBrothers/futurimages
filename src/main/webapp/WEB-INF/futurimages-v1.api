@@ -24,81 +24,42 @@
     "maxAge" : 0
   },
   "methods" : {
-    "futurimages.imagesV1.getImage" : {
-      "path" : "response/{}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
+    "futurimages.imagesV1.uploadImage" : {
+      "path" : "images",
+      "httpMethod" : "POST",
+      "authLevel" : "REQUIRED",
       "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
       "audiences" : [ ],
       "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImagesV1.getImage",
+      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImagesV1.uploadImage",
       "request" : {
-        "parameters" : {
-          "" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
-    },
-    "futurimages.imagesV1.removeImage" : {
-      "path" : "image/{}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImagesV1.removeImage",
-      "request" : {
-        "parameters" : {
-          "" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
     }
   },
   "descriptor" : {
     "schemas" : {
-      "ClientError" : {
-        "id" : "ClientError",
+      "ImageToUpload" : {
+        "id" : "ImageToUpload",
         "type" : "object",
         "properties" : {
-          "httpStatusCode" : {
-            "type" : "integer"
-          },
-          "message" : {
+          "name" : {
             "type" : "string"
           },
-          "errors" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Error"
-            }
-          }
-        }
-      },
-      "Error" : {
-        "id" : "Error",
-        "type" : "object",
-        "properties" : {
-          "resource" : {
+          "description" : {
             "type" : "string"
           },
-          "field" : {
+          "content" : {
             "type" : "string"
           },
-          "code" : {
+          "public" : {
+            "type" : "boolean"
+          },
+          "content_type" : {
             "type" : "string"
           }
         }
@@ -111,15 +72,13 @@
       }
     },
     "methods" : {
-      "com.codingbrothers.futurimages.apiv1.ImagesV1.getImage" : {
+      "com.codingbrothers.futurimages.apiv1.ImagesV1.uploadImage" : {
         "request" : {
-          "$ref" : "ClientError"
+          "$ref" : "ImageToUpload"
         },
         "response" : {
           "$ref" : "Response"
         }
-      },
-      "com.codingbrothers.futurimages.apiv1.ImagesV1.removeImage" : {
       }
     }
   }

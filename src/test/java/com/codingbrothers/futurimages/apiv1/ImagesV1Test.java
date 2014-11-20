@@ -1,27 +1,21 @@
 package com.codingbrothers.futurimages.apiv1;
 
-import javax.inject.Inject;
+import static org.hamcrest.core.IsInstanceOf.*;
+import static org.junit.Assert.*;
 
-import org.jukito.UseModules;
+import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.codingbrothers.appengine.testing.GAERunner;
-import com.codingbrothers.futurimages.config.FuturimagesApiV1Module;
-import com.codingbrothers.futurimages.config.FuturimagesCommonModule;
-import com.codingbrothers.futurimages.config.FuturimagesTestModule;
-
-@RunWith(GAERunner.class)
-@UseModules({ FuturimagesTestModule.class, FuturimagesCommonModule.class, FuturimagesApiV1Module.class })
-public class ImagesV1Test {
-
-	@Inject
-	private ImagesV1 api; // safe to inject it as apis (a.k.a. SystemServices) are singletons, anyway
+public class ImagesV1Test extends ApiTestSupport<ImagesV1> {
 
 	@Test
-	public void getImageReturnsClientError() {
-		System.out.println("getImageReturnsClientError");
-		System.out.println(api.getImage("does-not-matter", null));
+	public void imageToUploadMustBeValid() {
+		ImageToUpload image = new ImageToUpload();
+		
+		// name, content, and contentType must not be null
+		Response res = api.uploadImage(image, user);
+		assertThat(res, instanceOf(ClientError.class));
+//		assertThat(res, IsCollectionContaining<T>);
 	}
 
 }
