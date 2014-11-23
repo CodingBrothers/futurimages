@@ -1,5 +1,7 @@
 package com.codingbrothers.futurimages.config;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -18,6 +20,7 @@ import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
 
 import com.codingbrothers.futurimages.apiv1.APIV1Constants;
 import com.codingbrothers.futurimages.apiv1.ImagesV1;
+import com.codingbrothers.futurimages.apiv1.Response;
 import com.codingbrothers.futurimages.apiv1.Responses;
 import com.codingbrothers.futurimages.util.DelegatingMessageInterpolator;
 import com.codingbrothers.futurimages.util.RequestContext;
@@ -26,6 +29,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
+import com.google.inject.matcher.AbstractMatcher;
 import com.google.inject.matcher.Matchers;
 
 public class FuturimagesApiV1Module extends AbstractModule {
@@ -75,7 +79,7 @@ public class FuturimagesApiV1Module extends AbstractModule {
 		bind(ExecutableValidator.class).toInstance(executableValidator); // safe as validator is always thread-safe
 
 		// make use of little amount of aop to plumb automatic validation of endpoint parameters in apis
-		// this way we don't have to deal with it in api impls
+		// this way we don't have to deal with it directly in api impls
 		ValidatingInterceptor validatingInterceptor = new ValidatingInterceptor(executableValidator, true, false) {
 
 			@Inject
@@ -89,7 +93,16 @@ public class FuturimagesApiV1Module extends AbstractModule {
 			}
 		};
 		requestInjection(validatingInterceptor);
-		bindInterceptor(Matchers.annotatedWith(Api.class), Matchers.any(), validatingInterceptor);
+		bindInterceptor(Matchers.inPackage(APIV1Constants.class.getPackage()).and(Matchers.annotatedWith(Api.class)),
+				new AbstractMatcher<Method>() {
+
+					@Override
+					public boolean matches(Method m) {
+						int modifiers = m.getModifiers();
+						return Modifier.isPublic(modifiers) && !Modifier.isStatic(modifiers) && !m.isBridge()
+								&& Response.class.isAssignableFrom(m.getReturnType());
+					}
+				}, validatingInterceptor);
 	}
 
 }

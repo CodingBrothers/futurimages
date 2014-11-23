@@ -15,7 +15,7 @@ import com.google.appengine.api.users.User;
 public class ImagesV1 {
 
 	@ApiMethod(path = "images", httpMethod = HttpMethod.POST, authLevel = AuthLevel.REQUIRED)
-	public Response uploadImage(@NotNull @Valid ImageToUpload imageToUpload, User user) {
+	public Response uploadImage(@NotNull @Valid ImageToUpload imageToUpload, @NotNull User user) {
 		return null;
 	}
 }

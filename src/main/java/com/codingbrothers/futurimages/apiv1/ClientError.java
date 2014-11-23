@@ -11,6 +11,8 @@ public class ClientError extends ResponseWithHttpStatusCode {
 		public static final String MISSING_FIELD_CODE = "missing_field";
 		public static final String INVALID_CODE = "invalid";
 		public static final String ALREADY_EXISTS_CODE = "already_exists";
+		
+		public static final String RESOURCE_PATH_SEPARATOR = ".";
 
 		private final String resource;
 		private final String field;
@@ -48,6 +50,48 @@ public class ClientError extends ResponseWithHttpStatusCode {
 
 		public String getCode() {
 			return code;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((code == null) ? 0 : code.hashCode());
+			result = prime * result + ((field == null) ? 0 : field.hashCode());
+			result = prime * result + ((resource == null) ? 0 : resource.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Error other = (Error) obj;
+			if (code == null) {
+				if (other.code != null)
+					return false;
+			} else if (!code.equals(other.code))
+				return false;
+			if (field == null) {
+				if (other.field != null)
+					return false;
+			} else if (!field.equals(other.field))
+				return false;
+			if (resource == null) {
+				if (other.resource != null)
+					return false;
+			} else if (!resource.equals(other.resource))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ClientError.Error [resource=" + resource + ", field=" + field + ", code=" + code + "]";
 		}
 
 	}

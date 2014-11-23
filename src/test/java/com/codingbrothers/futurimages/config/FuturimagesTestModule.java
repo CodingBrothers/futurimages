@@ -14,6 +14,7 @@ import com.codingbrothers.futurimages.util.ObjectifyLocalServiceTestConfig;
 import com.google.appengine.api.datastore.dev.LocalDatastoreService.AutoIdAllocationPolicy;
 import com.google.appengine.api.users.User;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalImagesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestConfig;
 import com.google.common.collect.Iterators;
 import com.google.inject.Key;
@@ -62,5 +63,11 @@ public class FuturimagesTestModule extends JukitoModule {
 	LocalServiceTestConfig provideLocalDatastoreServiceTestConfig() {
 		return new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(0)
 				.setAutoIdAllocationPolicy(AutoIdAllocationPolicy.SCATTERED).setNoIndexAutoGen(false);
+	}
+	
+	@Provides
+	@Named("FuturimagesLocalImagesServiceTestConfig")
+	LocalServiceTestConfig provideLocalImagesServiceTestConfig() {
+		return new LocalImagesServiceTestConfig();
 	}
 }
