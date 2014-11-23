@@ -1,10 +1,12 @@
 package com.codingbrothers.futurimages.apiv1.util;
 
+import java.util.Objects;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import com.codingbrothers.futurimages.apiv1.ImageToUpload;
-import com.google.appengine.api.images.Image.Format;
+import com.codingbrothers.futurimages.util.Utils;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.common.io.BaseEncoding;
 
@@ -28,13 +30,7 @@ public class ImageContentMustMatchContentTypeValidator implements
 			image.setImage(ImagesServiceFactory.makeImage(BaseEncoding.base64().decode(image.getContent())));
 
 			// note: contentType is validated elsewhere (via AnyOf validator)
-			if ((image.getContentType().equals("image/jpeg") && image.getImage().getFormat() == Format.JPEG)
-					|| (image.getContentType().equals("image/png") && image.getImage().getFormat() == Format.PNG)
-					|| (image.getContentType().equals("image/webp") && image.getImage().getFormat() == Format.WEBP)
-					|| (image.getContentType().equals("image/gif") && image.getImage().getFormat() == Format.GIF)
-					|| (image.getContentType().equals("image/bmp") && image.getImage().getFormat() == Format.BMP)
-					|| (image.getContentType().equals("image/tiff") && image.getImage().getFormat() == Format.TIFF)
-					|| (image.getContentType().equals("image/x-icon") && image.getImage().getFormat() == Format.ICO)) {
+			if (Objects.equals(Utils.getImageFormat(image.getContentType()), image.getImage().getFormat())) {
 				isValid = true;
 			}
 		} catch (Exception e) {
