@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.codingbrothers.futurimages.domain.Image;
+import com.codingbrothers.futurimages.domain.User;
 import com.google.inject.Injector;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -17,6 +18,7 @@ public class FuturimagesObjectifyFactory extends ObjectifyFactory {
 	public FuturimagesObjectifyFactory(Injector injector) {
 		this.injector = injector;
 
+		this.register(User.class);
 		this.register(Image.class);
 
 		ObjectifyService.setFactory(this);
