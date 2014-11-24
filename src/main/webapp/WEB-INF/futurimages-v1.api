@@ -24,6 +24,76 @@
     "maxAge" : 0
   },
   "methods" : {
+    "futurimages.userV1.getImages" : {
+      "path" : "user/images",
+      "httpMethod" : "GET",
+      "authLevel" : "REQUIRED",
+      "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.UserV1.getImages",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "futurimages.imageTransformationsV1.createImageTransformation" : {
+      "path" : "images/{id}/transformations",
+      "httpMethod" : "POST",
+      "authLevel" : "REQUIRED",
+      "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImageTransformationsV1.createImageTransformation",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "futurimages.imageTransformationsV1.getImageTransformations" : {
+      "path" : "images/{id}/transformations",
+      "httpMethod" : "GET",
+      "authLevel" : "OPTIONAL_CONTINUE",
+      "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImageTransformationsV1.getImageTransformations",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          },
+          "since" : {
+            "type" : "string",
+            "required" : false
+          },
+          "sort_by_dir" : {
+            "type" : "string",
+            "required" : false
+          },
+          "view_type" : {
+            "type" : "string",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "futurimages.imagesV1.uploadImage" : {
       "path" : "images",
       "httpMethod" : "POST",
@@ -39,10 +109,94 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+    },
+    "futurimages.imageV1.deleteImage" : {
+      "path" : "images/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "OPTIONAL_CONTINUE",
+      "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImageV1.deleteImage",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "futurimages.imageV1.getImage" : {
+      "path" : "images/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "OPTIONAL_CONTINUE",
+      "scopes" : [ "https://www.googleapis.com/auth/plus.login", "email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "881176597931-pi8v9l72t68c6s9lpm3mnhmv1227hog1.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.codingbrothers.futurimages.apiv1.ImageV1.getImage",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          },
+          "view_type" : {
+            "type" : "string",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
     }
   },
   "descriptor" : {
     "schemas" : {
+      "Response" : {
+        "id" : "Response",
+        "type" : "object",
+        "properties" : {
+        }
+      },
+      "ImageTransformationToCreate" : {
+        "id" : "ImageTransformationToCreate",
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "transformations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "TransformationOp"
+            }
+          }
+        }
+      },
+      "TransformationOp" : {
+        "id" : "TransformationOp",
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "OpType"
+          }
+        }
+      },
+      "OpType" : {
+        "id" : "OpType",
+        "type" : "string",
+        "enum" : [ "RESIZE", "FLIP", "ROTATE" ]
+      },
       "ImageToUpload" : {
         "id" : "ImageToUpload",
         "type" : "object",
@@ -63,19 +217,41 @@
             "type" : "string"
           }
         }
-      },
-      "Response" : {
-        "id" : "Response",
-        "type" : "object",
-        "properties" : {
-        }
       }
     },
     "methods" : {
+      "com.codingbrothers.futurimages.apiv1.UserV1.getImages" : {
+        "response" : {
+          "$ref" : "Response"
+        }
+      },
+      "com.codingbrothers.futurimages.apiv1.ImageTransformationsV1.createImageTransformation" : {
+        "request" : {
+          "$ref" : "ImageTransformationToCreate"
+        },
+        "response" : {
+          "$ref" : "Response"
+        }
+      },
+      "com.codingbrothers.futurimages.apiv1.ImageTransformationsV1.getImageTransformations" : {
+        "response" : {
+          "$ref" : "Response"
+        }
+      },
       "com.codingbrothers.futurimages.apiv1.ImagesV1.uploadImage" : {
         "request" : {
           "$ref" : "ImageToUpload"
         },
+        "response" : {
+          "$ref" : "Response"
+        }
+      },
+      "com.codingbrothers.futurimages.apiv1.ImageV1.deleteImage" : {
+        "response" : {
+          "$ref" : "Response"
+        }
+      },
+      "com.codingbrothers.futurimages.apiv1.ImageV1.getImage" : {
         "response" : {
           "$ref" : "Response"
         }

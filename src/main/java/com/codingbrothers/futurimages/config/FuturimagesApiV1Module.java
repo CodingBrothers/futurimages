@@ -84,12 +84,12 @@ public class FuturimagesApiV1Module extends AbstractModule {
 
 			@Inject
 			@Named(APIV1Constants.API_MESSAGES_RESOURCE_BUNDLE_NAME)
-			private ResourceBundle resourceBundle;
+			private Provider<ResourceBundle> resourceBundle;
 
 			@Override
 			protected Object handleParametersViolations(MethodInvocation invocation,
 					Set<ConstraintViolation<Object>> violations) {
-				return Responses.createClientError(violations, resourceBundle);
+				return Responses.createClientError(violations, resourceBundle.get());
 			}
 		};
 		requestInjection(validatingInterceptor);

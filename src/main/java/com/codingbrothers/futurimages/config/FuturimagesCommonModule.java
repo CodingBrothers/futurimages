@@ -1,6 +1,5 @@
 package com.codingbrothers.futurimages.config;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +10,6 @@ import com.codingbrothers.futurimages.service.impl.DeferredImageTransformer;
 import com.codingbrothers.futurimages.service.impl.FuturimagesImpl;
 import com.codingbrothers.futurimages.service.impl.ImageDataUploader;
 import com.codingbrothers.futurimages.service.impl.ImageTransformer;
-import com.codingbrothers.futurimages.util.RequestContext;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.users.User;
@@ -34,19 +32,6 @@ public class FuturimagesCommonModule extends AbstractModule {
 
 		bind(Image.class);
 
-		bind(RequestContext.class);
-
-		bind(User.class).toProvider(new Provider<User>() {
-
-			@Inject
-			private HttpServletRequest request;
-
-			@Override
-			public User get() {
-				return (User) request.getAttribute(LOGGED_IN_USER_REQ_ATTR_NAME);
-			}
-		}).in(RequestScoped.class);
-
 		bind(ImageDataUploader.class).to(DeferredImageDataUploader.class);
 
 		bind(ImageTransformer.class).to(DeferredImageTransformer.class);
@@ -62,5 +47,11 @@ public class FuturimagesCommonModule extends AbstractModule {
 	@Named("ImageTransformer")
 	Queue provideImageTransformerQueue() {
 		return QueueFactory.getDefaultQueue();
+	}
+
+	@Provides
+	@RequestScoped
+	User provideUser(Provider<HttpServletRequest> requestProvider) {
+		return (User) requestProvider.get().getAttribute(LOGGED_IN_USER_REQ_ATTR_NAME);
 	}
 }
