@@ -25,12 +25,13 @@ public class ImagesV1Test extends ApiTestSupport<ImagesV1> {
 		ImageToUpload image = new ImageToUpload();
 		
 		// name, content, and contentType must not be null/blank
+		image.setName("");
 		Response res = api.uploadImage(image, user);
 		assertThat(res, instanceOf(ClientError.class));
 		ClientError errRes = (ClientError) res;
 		assertThat(
 				errRes.getErrors(),
-				IsCollectionContaining.hasItems(Error.missingFieldError("", "name"),
+				IsCollectionContaining.hasItems(Error.invalidError("", "name"),
 						Error.missingFieldError("", "content"), Error.missingFieldError("", "content_type")));
 		
 		// only a subset of image media types is allowed
@@ -56,7 +57,6 @@ public class ImagesV1Test extends ApiTestSupport<ImagesV1> {
 		image.setContentType("image/png");
 		res = api.uploadImage(image, user);
 		assertThat(res, not(instanceOf(ClientError.class)));
-		assertThat(errRes.getErrors(), IsCollectionContaining.hasItems(Error.invalidError("", "content")));
 	}
 	
 	@Test
