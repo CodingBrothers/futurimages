@@ -13,6 +13,8 @@ import javax.validation.Path.Node;
 import javax.validation.constraints.NotNull;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.codingbrothers.futurimages.apiv1.ClientError.Error;
 import com.codingbrothers.futurimages.apiv1.util.AnyOf;
 import com.codingbrothers.futurimages.apiv1.util.ImageContentMustMatchContentType;
@@ -48,12 +50,16 @@ public class Responses {
 					clientError.addError(Error.missingError(resource));
 				}
 			}
+			if (desc.getAnnotation() instanceof NotBlank) {
+				clientError.addError(violation.getInvalidValue() != null ? Error.invalidError(resource, field) : Error
+						.missingFieldError(resource, field));
+			}
 
 			// AnyOf violations
 			if (desc.getAnnotation() instanceof AnyOf) {
 				clientError.addError(Error.invalidError(resource, field));
 			}
-			
+
 			// ImageContentMustMatchContentType violation
 			if (desc.getAnnotation() instanceof ImageContentMustMatchContentType) {
 				// ImageContentMustMatchContentTypeValidator already bound the error to the 'content' property
