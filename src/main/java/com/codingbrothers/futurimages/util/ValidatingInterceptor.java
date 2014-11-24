@@ -1,5 +1,10 @@
 package com.codingbrothers.futurimages.util;
 
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.Objects;
 import java.util.Set;
 
@@ -10,6 +15,13 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 public abstract class ValidatingInterceptor implements MethodInterceptor {
+
+	@Target({ METHOD })
+	@Retention(RUNTIME)
+	public @interface MethodGroupSequence {
+
+		Class<?>[] value();
+	}
 
 	private final ExecutableValidator executableValidator;
 	private final boolean validateParameters;
@@ -50,7 +62,11 @@ public abstract class ValidatingInterceptor implements MethodInterceptor {
 	}
 
 	protected Class<?>[] getGroups(MethodInvocation invocation) {
-		return new Class<?>[0];
+		if(invocation.getMethod().isAnnotationPresent(MethodGroupSequence.class)) {
+			return invocation.getMethod().getAnnotation(MethodGroupSequence.class).value();
+		} else {
+			return new Class[0]; // i.e. use the default group
+		}
 	}
 
 	protected Object handleParametersViolations(MethodInvocation invocation, Set<ConstraintViolation<Object>> violations) {
