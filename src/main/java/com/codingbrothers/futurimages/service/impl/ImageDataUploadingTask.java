@@ -46,7 +46,7 @@ public class ImageDataUploadingTask implements DeferredTask {
 			fileService = FileServiceFactory.getFileService();
 			file = fileService.createNewBlobFile(mimeType);
 
-			writeChannel = fileService.openWriteChannel(file, false);
+			writeChannel = fileService.openWriteChannel(file, true);
 			writeChannel.write(ByteBuffer.wrap(imageData));
 			writeChannel.closeFinally();
 

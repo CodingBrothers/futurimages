@@ -2,6 +2,8 @@ package com.codingbrothers.futurimages.domain;
 
 import javax.inject.Inject;
 
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Unindex;
 
@@ -33,6 +35,11 @@ public class Image extends BaseImage<User> {
 			this.image.p = image.p;
 			this.image.c = image.c;
 			this.image.blobKey = image.blobKey;
+			return this;
+		}
+
+		public Builder fromUser(Key<User> userKey) {
+			image.parent = Ref.create(userKey);
 			return this;
 		}
 

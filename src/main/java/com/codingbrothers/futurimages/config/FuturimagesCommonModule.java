@@ -3,7 +3,12 @@ package com.codingbrothers.futurimages.config;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
+import com.codingbrothers.futurimages.domain.CompositeTransform;
+import com.codingbrothers.futurimages.domain.Flip;
 import com.codingbrothers.futurimages.domain.Image;
+import com.codingbrothers.futurimages.domain.ImageTransformation;
+import com.codingbrothers.futurimages.domain.RelativeResize;
+import com.codingbrothers.futurimages.domain.Rotate;
 import com.codingbrothers.futurimages.service.Futurimages;
 import com.codingbrothers.futurimages.service.impl.DeferredImageDataUploader;
 import com.codingbrothers.futurimages.service.impl.DeferredImageTransformer;
@@ -29,8 +34,14 @@ public class FuturimagesCommonModule extends AbstractModule {
 		bind(Futurimages.class).to(FuturimagesImpl.class).asEagerSingleton();
 
 		bind(com.codingbrothers.futurimages.domain.User.class);
-
 		bind(Image.class);
+		
+		bind(ImageTransformation.class);
+		
+		bind(CompositeTransform.class);
+		bind(Flip.class);
+		bind(RelativeResize.class);
+		bind(Rotate.class);
 
 		bind(ImageDataUploader.class).to(DeferredImageDataUploader.class);
 

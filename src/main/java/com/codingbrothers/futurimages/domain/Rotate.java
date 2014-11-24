@@ -1,9 +1,11 @@
 package com.codingbrothers.futurimages.domain;
 
 import com.google.appengine.api.images.ImagesServiceFactory;
+import com.googlecode.objectify.annotation.Subclass;
 import com.googlecode.objectify.annotation.Unindex;
 
 @Unindex
+@Subclass(index = false)
 public class Rotate extends Transform {
 
 	private int degrees; // always in the clockwise direction

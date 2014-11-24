@@ -9,7 +9,9 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jukito.JukitoModule;
+import org.jukito.TestSingleton;
 
+import com.codingbrothers.futurimages.util.ObjectifiedDeferredTaskCallback;
 import com.codingbrothers.futurimages.util.ObjectifyLocalServiceTestConfig;
 import com.google.appengine.api.datastore.dev.LocalDatastoreService.AutoIdAllocationPolicy;
 import com.google.appengine.api.users.User;
@@ -19,6 +21,7 @@ import com.google.appengine.tools.development.testing.LocalFileServiceTestConfig
 import com.google.appengine.tools.development.testing.LocalImagesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
+import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig.TaskCountDownLatch;
 import com.google.common.collect.Iterators;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -64,14 +67,14 @@ public class FuturimagesTestModule extends JukitoModule {
 	@Provides
 	@Named("FuturimagesLocalDatastoreServiceTestConfig")
 	LocalServiceTestConfig provideLocalDatastoreServiceTestConfig() {
-		return new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(0)
+		return new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(50)
 				.setAutoIdAllocationPolicy(AutoIdAllocationPolicy.SCATTERED).setNoIndexAutoGen(true);
 	}
 
 	@Provides
 	@Named("FuturimagesLocalBlobstoreServiceTestConfig")
 	LocalServiceTestConfig provideLocalBlobstoreServiceTestConfig() {
-		return new LocalBlobstoreServiceTestConfig();
+		return new LocalBlobstoreServiceTestConfig().setNoStorage(true);
 	}
 
 	@Provides
@@ -81,9 +84,16 @@ public class FuturimagesTestModule extends JukitoModule {
 	}
 
 	@Provides
+	@TestSingleton
+	TaskCountDownLatch provideTaskCountDownLatch() {
+		return new TaskCountDownLatch(1);
+	}
+
+	@Provides
 	@Named("FuturimagesLocalTaskQueueTestConfig")
-	LocalServiceTestConfig provideLocalTaskQueueTestConfig() {
-		return new LocalTaskQueueTestConfig();
+	LocalServiceTestConfig provideLocalTaskQueueTestConfig(TaskCountDownLatch latch) {
+		return new LocalTaskQueueTestConfig().setDisableAutoTaskExecution(false)
+				.setCallbackClass(ObjectifiedDeferredTaskCallback.class).setTaskExecutionLatch(latch);
 	}
 
 	@Provides

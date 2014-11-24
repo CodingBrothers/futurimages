@@ -8,9 +8,11 @@ import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.googlecode.objectify.annotation.Subclass;
 import com.googlecode.objectify.annotation.Unindex;
 
 @Unindex
+@Subclass(index = false)
 public class CompositeTransform extends Transform {
 
 	private List<Transform> transforms;

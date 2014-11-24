@@ -43,7 +43,7 @@ public class ImagesV1Test extends ApiTestSupport<ImagesV1> {
 		
 		// content must match provided contentType and must be a Base64 string
 		image.setName("Futurelytics Logo");
-		try(FileChannel fLogoFC = FileChannel.open(Paths.get(ImagesV1Test.class.getResource("FuturelyticsLogo.png.base64").toURI()))) {
+		try(FileChannel fLogoFC = FileChannel.open(Paths.get(ImagesV1Test.class.getResource("/FuturelyticsLogo.png.base64").toURI()))) {
 			ByteBuffer buffer = ByteBuffer.allocate((int) fLogoFC.size());
 			fLogoFC.read(buffer);
 			image.setContent(new String(buffer.array(), Charset.forName("US-ASCII")));
@@ -64,7 +64,7 @@ public class ImagesV1Test extends ApiTestSupport<ImagesV1> {
 		ImageToUpload image = new ImageToUpload();
 		image.setName("Futurelytics Logo");
 		image.setContentType("image/png");
-		try(FileChannel fLogoFC = FileChannel.open(Paths.get(ImagesV1Test.class.getResource("FuturelyticsLogo.png.base64").toURI()))) {
+		try(FileChannel fLogoFC = FileChannel.open(Paths.get(ImagesV1Test.class.getResource("/FuturelyticsLogo.png.base64").toURI()))) {
 			ByteBuffer buffer = ByteBuffer.allocate((int) fLogoFC.size());
 			fLogoFC.read(buffer);
 			image.setContent(new String(buffer.array(), Charset.forName("US-ASCII")));

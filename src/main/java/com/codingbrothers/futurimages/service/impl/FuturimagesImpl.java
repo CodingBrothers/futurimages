@@ -35,8 +35,8 @@ public class FuturimagesImpl implements Futurimages {
 	 * committed tx, in rare cases it may happen. if it does happen, identical entities may be created for example.
 	 */
 
-	// validate contextually
-	// aspect for exceptions
+	// TODO: Validate contextually using javax validation groups
+	// TODO: Add aspects for wrapping exceptions
 
 	@Override
 	public Image createImage(final Image image, final com.google.appengine.api.images.Image imageData) {
@@ -44,7 +44,7 @@ public class FuturimagesImpl implements Futurimages {
 
 			@Override
 			public void vrun() {
-				ObjectifyService.ofy().save().entity(image);
+				ObjectifyService.ofy().save().entity(image).now();
 
 				imageDataUploader.uploadData(image, imageData);
 			}
