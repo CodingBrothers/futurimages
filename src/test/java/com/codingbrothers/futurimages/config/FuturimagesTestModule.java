@@ -13,9 +13,12 @@ import org.jukito.JukitoModule;
 import com.codingbrothers.futurimages.util.ObjectifyLocalServiceTestConfig;
 import com.google.appengine.api.datastore.dev.LocalDatastoreService.AutoIdAllocationPolicy;
 import com.google.appengine.api.users.User;
+import com.google.appengine.tools.development.testing.LocalBlobstoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalFileServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalImagesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.google.common.collect.Iterators;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -62,9 +65,27 @@ public class FuturimagesTestModule extends JukitoModule {
 	@Named("FuturimagesLocalDatastoreServiceTestConfig")
 	LocalServiceTestConfig provideLocalDatastoreServiceTestConfig() {
 		return new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(0)
-				.setAutoIdAllocationPolicy(AutoIdAllocationPolicy.SCATTERED).setNoIndexAutoGen(false);
+				.setAutoIdAllocationPolicy(AutoIdAllocationPolicy.SCATTERED).setNoIndexAutoGen(true);
 	}
-	
+
+	@Provides
+	@Named("FuturimagesLocalBlobstoreServiceTestConfig")
+	LocalServiceTestConfig provideLocalBlobstoreServiceTestConfig() {
+		return new LocalBlobstoreServiceTestConfig();
+	}
+
+	@Provides
+	@Named("FuturimagesLocalFileServiceTestConfig")
+	LocalServiceTestConfig provideLocalFileServiceTestConfig() {
+		return new LocalFileServiceTestConfig();
+	}
+
+	@Provides
+	@Named("FuturimagesLocalTaskQueueTestConfig")
+	LocalServiceTestConfig provideLocalTaskQueueTestConfig() {
+		return new LocalTaskQueueTestConfig();
+	}
+
 	@Provides
 	@Named("FuturimagesLocalImagesServiceTestConfig")
 	LocalServiceTestConfig provideLocalImagesServiceTestConfig() {
