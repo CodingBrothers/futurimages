@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import com.codingbrothers.futurimages.domain.Image;
 import com.codingbrothers.futurimages.service.Futurimages;
 import com.codingbrothers.futurimages.service.impl.DeferredImageDataUploader;
+import com.codingbrothers.futurimages.service.impl.DeferredImageTransformer;
 import com.codingbrothers.futurimages.service.impl.FuturimagesImpl;
 import com.codingbrothers.futurimages.service.impl.ImageDataUploader;
+import com.codingbrothers.futurimages.service.impl.ImageTransformer;
 import com.codingbrothers.futurimages.util.RequestContext;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
@@ -46,11 +48,19 @@ public class FuturimagesCommonModule extends AbstractModule {
 		}).in(RequestScoped.class);
 
 		bind(ImageDataUploader.class).to(DeferredImageDataUploader.class);
+
+		bind(ImageTransformer.class).to(DeferredImageTransformer.class);
 	}
 
 	@Provides
 	@Named("ImageDataUploader")
-	Queue provideQueue() {
+	Queue provideImageDataUploaderQueue() {
+		return QueueFactory.getDefaultQueue();
+	}
+
+	@Provides
+	@Named("ImageTransformer")
+	Queue provideImageTransformerQueue() {
 		return QueueFactory.getDefaultQueue();
 	}
 }

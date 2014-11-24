@@ -18,9 +18,9 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
 
-public class ImageDataUploaderTask implements DeferredTask {
+public class ImageDataUploadingTask implements DeferredTask {
 
-	private static final Logger logger = LoggerFactory.getLogger(ImageDataUploaderTask.class);
+	private static final Logger logger = LoggerFactory.getLogger(ImageDataUploadingTask.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class ImageDataUploaderTask implements DeferredTask {
 
 	private byte[] imageData;
 
-	public ImageDataUploaderTask(Key<Image> imageKey, String mimeType, byte[] imageData) {
+	public ImageDataUploadingTask(Key<Image> imageKey, String mimeType, byte[] imageData) {
 		this.imageKey = imageKey;
 		this.mimeType = mimeType;
 		this.imageData = imageData;
@@ -62,7 +62,7 @@ public class ImageDataUploaderTask implements DeferredTask {
 							logger.debug("The image {} already has data.", imageKey.getRaw());
 						} else {
 							ObjectifyService.ofy().save()
-									.entity(new Image.Builder().fromImage(image).setBlobKey(blobKey).build());
+									.entity(Image.Builder().fromImage(image).setBlobKey(blobKey).build());
 						}
 					} else {
 						logger.debug("The image {} does not exist.", imageKey.getRaw());

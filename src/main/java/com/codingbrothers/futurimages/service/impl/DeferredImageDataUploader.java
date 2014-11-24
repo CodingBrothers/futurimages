@@ -27,7 +27,7 @@ public class DeferredImageDataUploader implements ImageDataUploader {
 	}
 
 	protected DeferredTask createUploadTask(Image image, com.google.appengine.api.images.Image imageData) {
-		return new ImageDataUploaderTask(Key.create(image), Utils.getImageMediaType(imageData.getFormat()),
+		return new ImageDataUploadingTask(Key.create(image), Utils.getImageMediaType(imageData.getFormat()),
 				imageData.getImageData());
 	}
 }
