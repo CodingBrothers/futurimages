@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <datastore-indexes autoGenerate="false">
 
-	<datastore-index kind="com.codingbrothers.futurimages.domain.Image"
-	ancestor="false">
-	<property name="public" direction="asc" />
-	<property name="userId" direction="asc" />
-	<property name="createdAt" direction="desc" />
-</datastore-index>
+	<!-- Image -->
+
+	<datastore-index kind="Image" source="manual">
+		<property name="p" direction="asc" />
+		<property name="c" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Image" source="manual">
+		<property name="p" direction="asc" />
+		<property name="c" direction="desc" />
+	</datastore-index>
+
+	<datastore-index kind="Image" ancestor="true" source="manual">
+		<property name="c" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Image" ancestor="true" source="manual">
+		<property name="c" direction="desc" />
+	</datastore-index>
+
+	<!-- Transformation -->
+
+	<datastore-index kind="Transformation" ancestor="true"
+		source="manual">
+		<property name="c" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Transformation" ancestor="true"
+		source="manual">
+		<property name="c" direction="desc" />
+	</datastore-index>
 
 </datastore-indexes>
