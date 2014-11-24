@@ -1,6 +1,11 @@
 package com.codingbrothers.futurimages.domain;
 
+import com.googlecode.objectify.annotation.Unindex;
 
+@Unindex
 public abstract class Transform {
-	public abstract com.google.appengine.api.images.Transform asGoogleTransform();
+
+	Transform() {}
+
+	public abstract com.google.appengine.api.images.Transform asAppEngineTransform();
 }

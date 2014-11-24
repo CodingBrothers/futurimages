@@ -1,37 +1,43 @@
 package com.codingbrothers.futurimages.domain;
 
 import com.google.appengine.api.images.ImagesServiceFactory;
+import com.googlecode.objectify.annotation.Unindex;
 
+@Unindex
 public class Rotate extends Transform {
 
 	private int degrees; // always in the clockwise direction
+
+	Rotate() {}
 
 	public int getDegrees() {
 		return degrees;
 	}
 
 	@Override
-	public com.google.appengine.api.images.Transform asGoogleTransform() {
+	public com.google.appengine.api.images.Transform asAppEngineTransform() {
 		return ImagesServiceFactory.makeRotate(degrees);
 	}
 
 	public static class Builder {
 
-		private int degrees = 0;
+		private final Rotate rotate;
 
-		public Builder() {
+		private Builder() {
+			this.rotate = new Rotate();
 		}
 
 		public Builder percent(int degrees) {
-			this.degrees = degrees;
+			rotate.degrees = degrees;
 			return this;
 		}
 
 		public Rotate build() {
-			Rotate result = new Rotate();
-			result.degrees = degrees;
-			return result;
+			return rotate;
+		}
+
+		public static Builder create() {
+			return new Builder();
 		}
 	}
-
 }

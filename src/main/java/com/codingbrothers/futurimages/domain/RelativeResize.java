@@ -1,47 +1,54 @@
 package com.codingbrothers.futurimages.domain;
 
 import com.google.appengine.api.images.ImagesServiceFactory;
+import com.googlecode.objectify.annotation.Unindex;
 
+@Unindex
 public class RelativeResize extends Transform {
 
 	private int percent;
 
 	private int baseWidth;
+
 	private int baseHeight;
+
+	RelativeResize() {}
+
+	RelativeResize(int baseWidth, int baseHeight) {
+		this.percent = 100; // means no change in size
+		this.baseWidth = baseWidth;
+		this.baseHeight = baseHeight;
+	}
 
 	public int getPercent() {
 		return percent;
 	}
 
 	@Override
-	public com.google.appengine.api.images.Transform asGoogleTransform() {
+	public com.google.appengine.api.images.Transform asAppEngineTransform() {
 		return ImagesServiceFactory.makeResize((int) (baseWidth * (percent / 100.0)),
 				(int) (baseHeight * (percent / 100.0)), percent < 100);
 	}
 
 	public static class Builder {
 
-		private int percent = 100; // means no change in size
-		private int baseWidth;
-		private int baseHeight;
+		private RelativeResize relativeResize;
 
-		public Builder(int baseWidth, int baseHeight) {
-			this.baseWidth = baseWidth;
-			this.baseHeight = baseHeight;
+		private Builder(int baseWidth, int baseHeight) {
+			relativeResize = new RelativeResize(baseWidth, baseHeight);
 		}
 
 		public Builder percent(int percent) {
-			this.percent = percent;
+			relativeResize.percent = percent;
 			return this;
 		}
 
 		public RelativeResize build() {
-			RelativeResize result = new RelativeResize();
-			result.percent = percent;
-			result.baseWidth = baseWidth;
-			result.baseHeight = baseHeight;
-			return result;
+			return relativeResize;
+		}
+
+		public static Builder create(int baseWidth, int baseHeight) {
+			return new Builder(baseWidth, baseHeight);
 		}
 	}
-
 }
