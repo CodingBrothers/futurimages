@@ -3,32 +3,32 @@
 
 	<!-- Image -->
 
-	<datastore-index kind="Image" source="manual">
+	<datastore-index kind="I" source="manual">
 		<property name="p" direction="asc" />
 		<property name="c" direction="asc" />
 	</datastore-index>
 
-	<datastore-index kind="Image" source="manual">
+	<datastore-index kind="I" source="manual">
 		<property name="p" direction="asc" />
 		<property name="c" direction="desc" />
 	</datastore-index>
 
-	<datastore-index kind="Image" ancestor="true" source="manual">
+	<datastore-index kind="I" ancestor="true" source="manual">
 		<property name="c" direction="asc" />
 	</datastore-index>
 
-	<datastore-index kind="Image" ancestor="true" source="manual">
+	<datastore-index kind="I" ancestor="true" source="manual">
 		<property name="c" direction="desc" />
 	</datastore-index>
 
 	<!-- Transformation -->
 
-	<datastore-index kind="Transformation" ancestor="true"
+	<datastore-index kind="T" ancestor="true"
 		source="manual">
 		<property name="c" direction="asc" />
 	</datastore-index>
 
-	<datastore-index kind="Transformation" ancestor="true"
+	<datastore-index kind="T" ancestor="true"
 		source="manual">
 		<property name="c" direction="desc" />
 	</datastore-index>
