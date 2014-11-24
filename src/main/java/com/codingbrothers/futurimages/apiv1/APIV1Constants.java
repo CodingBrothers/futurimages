@@ -11,5 +11,7 @@ public class APIV1Constants {
 	// implicitly includes the profile scope (see https://developers.google.com/+/api/oauth)
 	public static final String PLUS_LOGIN_SCOPE = "https://www.googleapis.com/auth/plus.login";
 	public static final String EMAIL_SCOPE = "email";
+	
+	public static final int DEFAULT_IMAGE_TRANSFORMATION_SIZE_TO_RETURN = 200;
 
 }

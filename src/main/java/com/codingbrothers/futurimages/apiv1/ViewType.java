@@ -18,16 +18,18 @@ public class ViewType {
 		return imageSize;
 	}
 
-	public void setImageSize(Integer imageSize) {
+	public ViewType setImageSize(Integer imageSize) {
 		this.imageSize = imageSize;
+		return this;
 	}
 
 	public boolean getCrop() {
 		return crop;
 	}
 
-	public void setCrop(boolean crop) {
+	public ViewType setCrop(boolean crop) {
 		this.crop = crop;
+		return this;
 	}
 
 }
