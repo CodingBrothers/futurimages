@@ -27,7 +27,7 @@ public class Rotate extends Transform {
 			this.rotate = new Rotate();
 		}
 
-		public Builder percent(int degrees) {
+		public Builder degrees(int degrees) {
 			rotate.degrees = degrees;
 			return this;
 		}
