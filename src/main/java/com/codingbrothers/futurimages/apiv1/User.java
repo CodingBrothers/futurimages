@@ -1,7 +1,6 @@
 package com.codingbrothers.futurimages.apiv1;
 
-
-public class User {
+public class User implements Response {
 
 	private String login;
 	private String firstName;

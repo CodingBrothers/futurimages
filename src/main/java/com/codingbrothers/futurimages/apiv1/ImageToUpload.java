@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.codingbrothers.futurimages.apiv1.util.AnyOf;
 import com.codingbrothers.futurimages.apiv1.util.ImageContentMustMatchContentType;
+import com.codingbrothers.futurimages.apiv1.util.LengthEL;
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.appengine.api.images.Image;
@@ -18,7 +19,9 @@ public class ImageToUpload implements Response {
 	private String description;
 	private boolean isPublic = true;
 	@NotNull
-	private String content; // add max size check ASAP
+	@LengthEL(max = "(validatedValue.length / 1.37) <= 10000000", message = "ImageToUpload.content.maxSizeMessage")
+	// the size of Base64 decoded data is approx. 1.37 times as less
+	private String content;
 	@NotNull
 	@AnyOf(value = { "image/jpeg", "image/png", "image/webp", "image/gif", "image/bmp", "image/x-bmp", "image/tiff",
 			"image/x-icon" }, message = "ImageToUpload.contentType.anyOfMessage")

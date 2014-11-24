@@ -16,6 +16,15 @@ import com.google.appengine.api.users.User;
 @ApiClass(authLevel = AuthLevel.REQUIRED)
 public class AuthenticatedUserV1 {
 
+	@ApiMethod(name="getAuthUserImages", path = "user", httpMethod = HttpMethod.GET)
+	public Response getUser(@NotNull User user) {
+		com.codingbrothers.futurimages.apiv1.User apiV1User = new com.codingbrothers.futurimages.apiv1.User();
+		apiV1User.setLogin(user.getEmail());
+		// TODO - fill in authenticated user's first, last name
+		// this to be retrieved via G+ by means of using 'Google APIs Client Library for Java'
+		return apiV1User;
+	}
+	
 	@ApiMethod(name="getAuthUserImages", path = "user/images", httpMethod = HttpMethod.GET)
 	public Response getImages(@NotNull User user) {
 		return null;
