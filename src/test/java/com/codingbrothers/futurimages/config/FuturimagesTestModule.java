@@ -50,7 +50,7 @@ public class FuturimagesTestModule extends JukitoModule {
 				doReturn(Locale.getDefault()).when(req).getLocale();
 				doReturn(Iterators.asEnumeration(Arrays.asList(Locale.getDefault()).iterator())).when(req).getLocales();
 
-				doReturn(new User("example@example.com", "example.com")).when(req).getAttribute(
+				doReturn(new User("example@example.com", "example.com", "example(at)example.com")).when(req).getAttribute(
 						FuturimagesCommonModule.LOGGED_IN_USER_REQ_ATTR_NAME);
 
 				return req;

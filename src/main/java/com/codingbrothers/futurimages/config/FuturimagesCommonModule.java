@@ -10,8 +10,8 @@ import com.codingbrothers.futurimages.domain.ImageTransformation;
 import com.codingbrothers.futurimages.domain.RelativeResize;
 import com.codingbrothers.futurimages.domain.Rotate;
 import com.codingbrothers.futurimages.service.Futurimages;
-import com.codingbrothers.futurimages.service.impl.DeferredImageDataUploader;
-import com.codingbrothers.futurimages.service.impl.DeferredImageTransformer;
+import com.codingbrothers.futurimages.service.impl.EagerImageDataUploader;
+import com.codingbrothers.futurimages.service.impl.EagerImageTransformer;
 import com.codingbrothers.futurimages.service.impl.FuturimagesImpl;
 import com.codingbrothers.futurimages.service.impl.ImageDataUploader;
 import com.codingbrothers.futurimages.service.impl.ImageTransformer;
@@ -43,9 +43,11 @@ public class FuturimagesCommonModule extends AbstractModule {
 		bind(RelativeResize.class);
 		bind(Rotate.class);
 
-		bind(ImageDataUploader.class).to(DeferredImageDataUploader.class);
+//		bind(ImageDataUploader.class).to(DeferredImageDataUploader.class);
+		bind(ImageDataUploader.class).to(EagerImageDataUploader.class);
 
-		bind(ImageTransformer.class).to(DeferredImageTransformer.class);
+//		bind(ImageTransformer.class).to(DeferredImageTransformer.class);
+		bind(ImageTransformer.class).to(EagerImageTransformer.class);
 	}
 
 	@Provides

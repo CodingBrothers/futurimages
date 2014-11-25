@@ -40,16 +40,17 @@ public class FuturimagesImpl implements Futurimages {
 
 	@Override
 	public Image createImage(final Image image, final com.google.appengine.api.images.Image imageData) {
-		ObjectifyService.ofy().transact(new VoidWork() {
+		return ObjectifyService.ofy().transact(new Work<Image>() {
 
 			@Override
-			public void vrun() {
+			public Image run() {
 				ObjectifyService.ofy().save().entity(image).now();
-
+				
 				imageDataUploader.uploadData(image, imageData);
+				
+				return ObjectifyService.ofy().load().key(Key.create(image)).now();
 			}
 		});
-		return image;
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class FuturimagesImpl implements Futurimages {
 
 				imageTransformer.create(imageTransformation);
 
-				return imageTransformation;
+				return ObjectifyService.ofy().load().key(Key.create(imageTransformation)).now();
 			}
 		});
 	}

@@ -2,6 +2,10 @@ package com.codingbrothers.futurimages.config;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.WildcardType;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -19,6 +23,7 @@ import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpo
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
 
 import com.codingbrothers.futurimages.apiv1.APIV1Constants;
+import com.codingbrothers.futurimages.apiv1.ClientError;
 import com.codingbrothers.futurimages.apiv1.ImagesV1;
 import com.codingbrothers.futurimages.apiv1.Response;
 import com.codingbrothers.futurimages.apiv1.Responses;
@@ -89,7 +94,9 @@ public class FuturimagesApiV1Module extends AbstractModule {
 			@Override
 			protected Object handleParametersViolations(MethodInvocation invocation,
 					Set<ConstraintViolation<Object>> violations) {
-				return Responses.createClientError(violations, resourceBundle.get());
+				ClientError errRes = Responses.createClientError(violations, resourceBundle.get());
+				return !isIterableOfResponses(invocation.getMethod().getGenericReturnType()) ? errRes : Collections
+						.singletonList(errRes);
 			}
 		};
 		requestInjection(validatingInterceptor);
@@ -99,10 +106,34 @@ public class FuturimagesApiV1Module extends AbstractModule {
 					@Override
 					public boolean matches(Method m) {
 						int modifiers = m.getModifiers();
-						return Modifier.isPublic(modifiers) && !Modifier.isStatic(modifiers) && !m.isBridge()
-								&& Response.class.isAssignableFrom(m.getReturnType());
+						return Modifier.isPublic(modifiers)
+								&& !Modifier.isStatic(modifiers)
+								&& !m.isBridge()
+								&& (Response.class.isAssignableFrom(m.getReturnType()) || isIterableOfResponses(m
+										.getGenericReturnType()));
 					}
 				}, validatingInterceptor);
+	}
+
+	private static boolean isIterableOfResponses(Type type) {
+		if (type instanceof ParameterizedType) {
+			if (Iterable.class.isAssignableFrom((Class<?>) ((ParameterizedType) type).getRawType())) {
+				Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
+				if (actualTypeArguments != null && actualTypeArguments.length == 1) {
+					if (actualTypeArguments[0] instanceof Class
+							&& Response.class.isAssignableFrom((Class<?>) actualTypeArguments[0])) {
+						return true;
+					} else if (actualTypeArguments[0] instanceof WildcardType
+							&& ((WildcardType) actualTypeArguments[0]).getUpperBounds()[0] instanceof Class) {
+						if (Response.class.isAssignableFrom((Class<?>) ((WildcardType) actualTypeArguments[0])
+								.getUpperBounds()[0])) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 }

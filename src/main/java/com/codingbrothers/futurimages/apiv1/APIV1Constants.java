@@ -13,5 +13,6 @@ public class APIV1Constants {
 	public static final String EMAIL_SCOPE = "email";
 	
 	public static final int DEFAULT_IMAGE_TRANSFORMATION_SIZE_TO_RETURN = 200;
+	public static final int DEFAULT_PAGE_SIZE = 20;
 
 }

@@ -24,6 +24,10 @@ public class ImageTransformation extends BaseImage<Image> {
 	void setTransform(Transform transform) {
 		this.transform = transform;
 	}
+	
+	public boolean isPublic() {
+		return true; // at the moment, ImageTransformation is always public
+	}
 
 	public static Builder Builder() {
 		return Builder.create();

@@ -9,14 +9,14 @@ import org.junit.runners.model.Statement;
 
 import com.google.inject.Injector;
 
-public class GAERunner extends JukitoRunner {
+public class GAETestRunner extends JukitoRunner {
 
-	public GAERunner(Class<?> klass) throws InitializationError, InvocationTargetException, InstantiationException,
+	public GAETestRunner(Class<?> klass) throws InitializationError, InvocationTargetException, InstantiationException,
 			IllegalAccessException {
 		super(klass);
 	}
 
-	public GAERunner(Class<?> klass, Injector injector) throws InitializationError, InvocationTargetException,
+	public GAETestRunner(Class<?> klass, Injector injector) throws InitializationError, InvocationTargetException,
 			InstantiationException, IllegalAccessException {
 		super(klass, injector);
 	}

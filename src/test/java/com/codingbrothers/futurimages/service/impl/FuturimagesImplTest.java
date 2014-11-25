@@ -20,7 +20,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.codingbrothers.appengine.testing.GAERunner;
+import com.codingbrothers.appengine.testing.GAETestRunner;
 import com.codingbrothers.appengine.testing.GAETest;
 import com.codingbrothers.futurimages.config.FuturimagesCommonModule;
 import com.codingbrothers.futurimages.config.FuturimagesTestModule;
@@ -37,7 +37,7 @@ import com.google.common.io.ByteStreams;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
-@RunWith(GAERunner.class)
+@RunWith(GAETestRunner.class)
 @UseModules({FuturimagesTestModule.class, FuturimagesCommonModule.class})
 public class FuturimagesImplTest {
 
@@ -69,6 +69,7 @@ public class FuturimagesImplTest {
 
 	@Test
 	@GAETest
+	@Ignore
 	public void testCreateImage() throws Exception {
 		Image image = Image.Builder().fromUser(Key.create(User.class, "test")).build();
 

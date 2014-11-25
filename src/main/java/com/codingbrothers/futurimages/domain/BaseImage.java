@@ -23,7 +23,7 @@ public abstract class BaseImage<P> {
 	Long id;
 
 	@Index
-	@IgnoreSave({IfNull.class, IfFalse.class})
+	@IgnoreSave({ IfNull.class, IfFalse.class })
 	@Translate(early = true, value = TrueToNullTranslator.class)
 	Boolean p = Boolean.FALSE;
 
@@ -32,14 +32,31 @@ public abstract class BaseImage<P> {
 
 	String blobKey;
 
-	BaseImage() {}
+	String name;
 
-	void setParent(Ref<P> parent) {
-		this.parent = parent;
+	String description;
+
+	BaseImage() {
+	}
+
+	public boolean isPublic() {
+		return p;
+	}
+	
+	public Date getCreatedAt() {
+		return c;
 	}
 
 	public String getBlobKey() {
 		return blobKey;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	// hashCode, equals, toString

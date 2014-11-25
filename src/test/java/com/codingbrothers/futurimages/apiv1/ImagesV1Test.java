@@ -60,6 +60,7 @@ public class ImagesV1Test extends ApiTestSupport<ImagesV1> {
 	}
 	
 	@Test
+	@GAETest
 	public void imageUploadRequiresUserContext() throws Exception {
 		ImageToUpload image = new ImageToUpload();
 		image.setName("Futurelytics Logo");

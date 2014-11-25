@@ -1,5 +1,7 @@
 package com.codingbrothers.futurimages.domain;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import com.googlecode.objectify.Key;
@@ -45,6 +47,26 @@ public class Image extends BaseImage<User> {
 
 		public Builder setBlobKey(String blobKey) {
 			image.blobKey = blobKey;
+			return this;
+		}
+		
+		public Builder setPublic(boolean isPublic) {
+			image.p = isPublic;
+			return this;
+		}
+		
+		public Builder setCreatedAt(Date createdAt) {
+			image.c = createdAt;
+			return this;
+		}
+		
+		public Builder setName(String name) {
+			image.name = name;
+			return this;
+		}
+		
+		public Builder setDescription(String description) {
+			image.description = description;
 			return this;
 		}
 

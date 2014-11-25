@@ -2,6 +2,7 @@ package com.codingbrothers.futurimages.config;
 
 import javax.inject.Singleton;
 
+import com.codingbrothers.futurimages.apiv1.ImageTransformationV1;
 import com.codingbrothers.futurimages.apiv1.ImageTransformationsV1;
 import com.codingbrothers.futurimages.apiv1.ImageV1;
 import com.codingbrothers.futurimages.apiv1.ImagesV1;
@@ -20,7 +21,7 @@ public class FuturimagesServletModule extends GuiceSystemServiceServletModule {
 		filter("/*").through(ObjectifyFilter.class);
 		filter("/*").through(ObjectifySessionClearingFilter.class);
 
-		serveGuiceSystemServiceServlet("/_ah/spi/*",
-				Lists.newArrayList(ImagesV1.class, ImageV1.class, ImageTransformationsV1.class, AuthenticatedUserV1.class));
+		serveGuiceSystemServiceServlet("/_ah/spi/*", Lists.newArrayList(ImagesV1.class, ImageV1.class,
+				ImageTransformationsV1.class, ImageTransformationV1.class, AuthenticatedUserV1.class));
 	}
 }
