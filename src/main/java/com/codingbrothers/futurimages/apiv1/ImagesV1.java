@@ -1,5 +1,7 @@
 package com.codingbrothers.futurimages.apiv1;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,11 +22,12 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.AuthLevel;
 import com.google.appengine.api.users.User;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
 
-@Api(name = "futurimages", version = "v1", scopes = { APIV1Constants.PLUS_LOGIN_SCOPE, APIV1Constants.EMAIL_SCOPE }, clientIds = {
-		APIV1Constants.FUTURIMAGES_WEB_CLIENT_ID, Constant.API_EXPLORER_CLIENT_ID }, authenticators = { StoreUserEndpointsAuthenticator.class })
+@Api(name = "futurimages", version = "v1", scopes = {APIV1Constants.PLUS_LOGIN_SCOPE, APIV1Constants.EMAIL_SCOPE},
+		clientIds = {APIV1Constants.FUTURIMAGES_WEB_CLIENT_ID, Constant.API_EXPLORER_CLIENT_ID},
+		authenticators = {StoreUserEndpointsAuthenticator.class})
 @ApiClass(authLevel = AuthLevel.OPTIONAL_CONTINUE)
 public class ImagesV1 {
 
@@ -35,9 +38,9 @@ public class ImagesV1 {
 	private Futurimages service;
 
 	// TODO - add page, page_size parameters
-	
+
 	@ApiMethod(name = "getAuthUserOrPublicImages", path = "images", httpMethod = HttpMethod.GET)
-	public Iterable<? extends Response> getAuthUserOrPublicImages(
+	public List<com.codingbrothers.futurimages.apiv1.Image> getAuthUserOrPublicImages(
 			@Nullable @ISODateTime @Named("since") String sinceRaw,
 			@Nullable @Named("sort_by_dir") SortByDir sortByDir, @Nullable User user) {
 		if (user != null) {
@@ -48,12 +51,12 @@ public class ImagesV1 {
 	}
 
 	@ApiMethod(name = "getPublicImages", path = "images/public", httpMethod = HttpMethod.GET)
-	public Iterable<? extends Response> getPublicImages(@Nullable @ISODateTime @Named("since") String sinceRaw,
+	public List<com.codingbrothers.futurimages.apiv1.Image> getPublicImages(@Nullable @ISODateTime @Named("since") String sinceRaw,
 			@Nullable @Named("sort_by_dir") SortByDir sortByDir, @Nullable User user) {
 		DateTime since = sinceRaw != null ? APIV1Utils.parseISODateTime(sinceRaw) : null;
 		sortByDir = sortByDir != null ? sortByDir : SortByDir.DESC;
-		return Iterables.transform(service.getPublicImages(since.toDate(), null, sortByDir == SortByDir.ASC, 0,
-				APIV1Constants.DEFAULT_PAGE_SIZE), APIV1Utils.convertToAPIImageFunction(user, null));
+		return Lists.transform(service.getPublicImages(since != null ? since.toDate() : null, null, sortByDir == SortByDir.ASC, 0,
+				APIV1Constants.DEFAULT_PAGE_SIZE), APIV1Utils.convertToAPIImageFunction(null, false));
 	}
 
 	@ApiMethod(name = "uploadImage", path = "images", httpMethod = HttpMethod.POST, authLevel = AuthLevel.REQUIRED)
@@ -61,17 +64,21 @@ public class ImagesV1 {
 		// note: imageToUpload.getImage() is never null - ensured by validation
 
 		// create new image
-		Image domainImage = Image.Builder()
-				.fromUser(Key.create(com.codingbrothers.futurimages.domain.User.class, user.getUserId()))
-				.setName(imageToUpload.getName()).setDescription(imageToUpload.getDescription())
-				.setPublic(imageToUpload.isPublic())
-				.setCreatedAt(DateTime.now().toDate())
-				.build();
+		Image domainImage =
+				Image.Builder()
+						.fromUser(Key.create(com.codingbrothers.futurimages.domain.User.class, user.getUserId()))
+						.setName(imageToUpload.getName()).setDescription(imageToUpload.getDescription())
+						.setPublic(imageToUpload.isPublic()).setCreatedAt(DateTime.now().toDate()).build();
 
 		// save it
 		domainImage = service.createImage(domainImage, imageToUpload.getImage());
 
 		// note: createImage ensures the domainImage has been assigned an id
-		return APIV1Utils.convertToAPIImage(domainImage, user, null);
+		// the last 'false' means to not fill in image data fields
+		// but the API docs require to also return uploaded image data
+		// - => either change the docs
+		// or make the createImage procedure synchronous
+		// or synchronously wait
+		return APIV1Utils.convertToAPIImage(domainImage, null, false);
 	}
 }

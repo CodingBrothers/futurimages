@@ -45,10 +45,10 @@ public class FuturimagesImpl implements Futurimages {
 			@Override
 			public Image run() {
 				ObjectifyService.ofy().save().entity(image).now();
-				
+
 				imageDataUploader.uploadData(image, imageData);
-				
-				return ObjectifyService.ofy().load().key(Key.create(image)).now();
+
+				return image;
 			}
 		});
 	}
@@ -66,7 +66,7 @@ public class FuturimagesImpl implements Futurimages {
 
 				imageTransformer.create(imageTransformation);
 
-				return ObjectifyService.ofy().load().key(Key.create(imageTransformation)).now();
+				return imageTransformation;
 			}
 		});
 	}
@@ -102,10 +102,10 @@ public class FuturimagesImpl implements Futurimages {
 	}
 
 	@Override
-	public Iterable<Image> getPublicImages(Date createdAfter, Date createdBefore, boolean asc, final int offset,
+	public List<Image> getPublicImages(Date createdAfter, Date createdBefore, boolean asc, final int offset,
 			final int limit) {
 		Query<Image> query =
-				ObjectifyService.ofy().load().type(Image.class).filter("p", Boolean.TRUE).offset(offset).limit(limit);
+				ObjectifyService.ofy().load().type(Image.class).filter("p", null).offset(offset).limit(limit);
 
 		if (createdAfter != null) {
 			query = query.filter("c >", createdAfter);
@@ -115,53 +115,41 @@ public class FuturimagesImpl implements Futurimages {
 		}
 		query = query.order(asc ? "c" : "-c");
 
-		return query.iterable();
+		return query.list();
 	}
 
 	@Override
-	public Iterable<Image> getUserImages(final Key<User> userKey, final Date createdAfter, final Date createdBefore,
+	public List<Image> getUserImages(final Key<User> userKey, final Date createdAfter, final Date createdBefore,
 			final boolean asc, final int offset, final int limit) {
-		return ObjectifyService.ofy().transact(new Work<Iterable<Image>>() {
+		Query<Image> query =
+				ObjectifyService.ofy().load().type(Image.class).ancestor(userKey).offset(offset).limit(limit);
 
-			@Override
-			public Iterable<Image> run() {
-				Query<Image> query =
-						ObjectifyService.ofy().load().type(Image.class).ancestor(userKey).offset(offset).limit(limit);
+		if (createdAfter != null) {
+			query = query.filter("c >", createdAfter);
+		}
+		if (createdBefore != null) {
+			query = query.filter("c <", createdBefore);
+		}
+		query = query.order(asc ? "c" : "-c");
 
-				if (createdAfter != null) {
-					query = query.filter("c >", createdAfter);
-				}
-				if (createdBefore != null) {
-					query = query.filter("c <", createdBefore);
-				}
-				query = query.order(asc ? "c" : "-c");
-
-				return query.iterable();
-			}
-		});
+		return query.list();
 	}
 
 	@Override
-	public Iterable<ImageTransformation> getImageTransformations(final Key<ImageTransformation> imgTranKey,
+	public List<ImageTransformation> getImageTransformations(final Key<ImageTransformation> imgTranKey,
 			final Date createdAfter, final Date createdBefore, final boolean asc, final int offset, final int limit) {
-		return ObjectifyService.ofy().transact(new Work<Iterable<ImageTransformation>>() {
+		Query<ImageTransformation> query =
+				ObjectifyService.ofy().load().type(ImageTransformation.class).ancestor(imgTranKey).offset(offset)
+						.limit(limit);
 
-			@Override
-			public Iterable<ImageTransformation> run() {
-				Query<ImageTransformation> query =
-						ObjectifyService.ofy().load().type(ImageTransformation.class).ancestor(imgTranKey)
-								.offset(offset).limit(limit);
+		if (createdAfter != null) {
+			query = query.filter("c >", createdAfter);
+		}
+		if (createdBefore != null) {
+			query = query.filter("c <", createdBefore);
+		}
+		query = query.order(asc ? "c" : "-c");
 
-				if (createdAfter != null) {
-					query = query.filter("c >", createdAfter);
-				}
-				if (createdBefore != null) {
-					query = query.filter("c <", createdBefore);
-				}
-				query = query.order(asc ? "c" : "-c");
-
-				return query.iterable();
-			}
-		});
+		return query.list();
 	}
 }

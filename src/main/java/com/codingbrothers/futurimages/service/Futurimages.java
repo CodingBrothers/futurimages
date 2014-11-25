@@ -1,6 +1,7 @@
 package com.codingbrothers.futurimages.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.codingbrothers.futurimages.domain.Image;
 import com.codingbrothers.futurimages.domain.ImageTransformation;
@@ -22,11 +23,11 @@ public interface Futurimages {
 
 	void removeImageTransformation(Key<ImageTransformation> imageTransformationKey);
 
-	Iterable<Image> getPublicImages(Date createdAfter, Date createdBefore, boolean asc, int offset, int limit);
+	List<Image> getPublicImages(Date createdAfter, Date createdBefore, boolean asc, int offset, int limit);
 
-	Iterable<Image> getUserImages(Key<User> userKey, Date createdAfter, Date createdBefore, boolean asc, int offset,
+	List<Image> getUserImages(Key<User> userKey, Date createdAfter, Date createdBefore, boolean asc, int offset,
 			int limit);
 
-	Iterable<ImageTransformation> getImageTransformations(Key<ImageTransformation> key, Date createdAfter,
+	List<ImageTransformation> getImageTransformations(Key<ImageTransformation> key, Date createdAfter,
 			Date createdBefore, boolean asc, int offset, int limit);
 }

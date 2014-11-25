@@ -1,5 +1,7 @@
 package com.codingbrothers.futurimages.apiv1;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
@@ -13,11 +15,12 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.AuthLevel;
 import com.google.appengine.api.users.User;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
 
-@Api(name = "futurimages", version = "v1", scopes = { APIV1Constants.PLUS_LOGIN_SCOPE, APIV1Constants.EMAIL_SCOPE }, clientIds = {
-		APIV1Constants.FUTURIMAGES_WEB_CLIENT_ID, Constant.API_EXPLORER_CLIENT_ID }, authenticators = { StoreUserEndpointsAuthenticator.class })
+@Api(name = "futurimages", version = "v1", scopes = {APIV1Constants.PLUS_LOGIN_SCOPE, APIV1Constants.EMAIL_SCOPE},
+		clientIds = {APIV1Constants.FUTURIMAGES_WEB_CLIENT_ID, Constant.API_EXPLORER_CLIENT_ID},
+		authenticators = {StoreUserEndpointsAuthenticator.class})
 @ApiClass(authLevel = AuthLevel.REQUIRED)
 public class AuthenticatedUserV1 {
 
@@ -25,8 +28,8 @@ public class AuthenticatedUserV1 {
 	private Futurimages service;
 
 	// TODO - add page, page_size parameters
-	
-	@ApiMethod(name = "getAuthUserImages", path = "user", httpMethod = HttpMethod.GET)
+
+	@ApiMethod(name = "getUser", path = "user", httpMethod = HttpMethod.GET)
 	public Response getUser(@NotNull User user) {
 		com.codingbrothers.futurimages.apiv1.User apiV1User = new com.codingbrothers.futurimages.apiv1.User();
 		apiV1User.setLogin(user.getEmail());
@@ -36,9 +39,9 @@ public class AuthenticatedUserV1 {
 	}
 
 	@ApiMethod(name = "getAuthUserImages", path = "user/images", httpMethod = HttpMethod.GET)
-	public Iterable<? extends Response> getImages(@NotNull User user) {
-		return Iterables.transform(service.getUserImages(
+	public List<com.codingbrothers.futurimages.apiv1.Image> getImages(@NotNull User user) {
+		return Lists.transform(service.getUserImages(
 				Key.create(com.codingbrothers.futurimages.domain.User.class, user.getUserId()), null, null, false, 0,
-				APIV1Constants.DEFAULT_PAGE_SIZE), APIV1Utils.convertToAPIImageFunction(user, null));
+				APIV1Constants.DEFAULT_PAGE_SIZE), APIV1Utils.convertToAPIImageFunction(null, false));
 	}
 }

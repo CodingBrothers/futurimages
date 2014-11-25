@@ -2,6 +2,8 @@ package com.codingbrothers.futurimages.apiv1;
 
 import java.util.List;
 
+import com.google.api.server.spi.config.ApiResourceProperty;
+
 public class Image implements Response {
 
 	private String id;
@@ -26,6 +28,7 @@ public class Image implements Response {
 		this.id = id;
 	}
 
+	@ApiResourceProperty(name = "created_at")
 	public String getCreatedAt() {
 		return createdAt;
 	}
@@ -66,6 +69,7 @@ public class Image implements Response {
 		this.owner = owner;
 	}
 
+	@ApiResourceProperty(name = "transformations_urls")
 	public List<String> getTransformationsURLs() {
 		return transformationsURLs;
 	}
@@ -74,6 +78,7 @@ public class Image implements Response {
 		this.transformationsURLs = transformationsURLs;
 	}
 
+	@ApiResourceProperty(name = "content_url")
 	public String getContentURL() {
 		return contentURL;
 	}
@@ -82,6 +87,7 @@ public class Image implements Response {
 		this.contentURL = contentURL;
 	}
 
+	@ApiResourceProperty(name = "content_type")
 	public String getContentType() {
 		return contentType;
 	}

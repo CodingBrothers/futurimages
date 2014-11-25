@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.WildcardType;
 import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -61,23 +60,24 @@ public class FuturimagesApiV1Module extends AbstractModule {
 
 	private void configureValidation() {
 		// bind BeanValidation
-		MessageInterpolator messageInterpolator = new DelegatingMessageInterpolator(
-				new ResourceBundleMessageInterpolator(new PlatformResourceBundleLocator(
-						APIV1Constants.API_MESSAGES_RESOURCE_BUNDLE_NAME))) {
+		MessageInterpolator messageInterpolator =
+				new DelegatingMessageInterpolator(new ResourceBundleMessageInterpolator(
+						new PlatformResourceBundleLocator(APIV1Constants.API_MESSAGES_RESOURCE_BUNDLE_NAME))) {
 
-			@Inject
-			private Provider<RequestContext> requestContext;
+					@Inject
+					private Provider<RequestContext> requestContext;
 
-			@Override
-			public String interpolate(String messageTemplate, Context context) {
-				return super.interpolate(messageTemplate, context,
-						requestContext.get().getRequestLocale(APIV1Constants.API_MESSAGES_DEFAULT_LOCALE));
-			}
-		};
+					@Override
+					public String interpolate(String messageTemplate, Context context) {
+						return super.interpolate(messageTemplate, context,
+								requestContext.get().getRequestLocale(APIV1Constants.API_MESSAGES_DEFAULT_LOCALE));
+					}
+				};
 		requestInjection(messageInterpolator);
 
-		Validator validator = Validation.byProvider(HibernateValidator.class).configure()
-				.messageInterpolator(messageInterpolator).buildValidatorFactory().getValidator();
+		Validator validator =
+				Validation.byProvider(HibernateValidator.class).configure().messageInterpolator(messageInterpolator)
+						.buildValidatorFactory().getValidator();
 		bind(Validator.class).toInstance(validator); // safe as validator is always thread-safe
 
 		ExecutableValidator executableValidator = validator.forExecutables();
@@ -116,6 +116,7 @@ public class FuturimagesApiV1Module extends AbstractModule {
 	}
 
 	private static boolean isIterableOfResponses(Type type) {
+		
 		if (type instanceof ParameterizedType) {
 			if (Iterable.class.isAssignableFrom((Class<?>) ((ParameterizedType) type).getRawType())) {
 				Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
@@ -123,16 +124,11 @@ public class FuturimagesApiV1Module extends AbstractModule {
 					if (actualTypeArguments[0] instanceof Class
 							&& Response.class.isAssignableFrom((Class<?>) actualTypeArguments[0])) {
 						return true;
-					} else if (actualTypeArguments[0] instanceof WildcardType
-							&& ((WildcardType) actualTypeArguments[0]).getUpperBounds()[0] instanceof Class) {
-						if (Response.class.isAssignableFrom((Class<?>) ((WildcardType) actualTypeArguments[0])
-								.getUpperBounds()[0])) {
-							return true;
-						}
 					}
 				}
 			}
 		}
+		
 		return false;
 	}
 
